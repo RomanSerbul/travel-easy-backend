@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: travel-easy-backend
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/travel_easy}
+    username: ${DATABASE_USERNAME:keycloak}
+    password: ${DATABASE_PASSWORD:keycloak}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:false}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:false}
+  cache:
+    type: simple
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+server:
+  port: ${PORT:8081}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+app:
+  url: ${APP_URL:http://localhost:4200}
+  admin:
+    username: ${APP_ADMIN_USERNAME:admin}
+    password: ${APP_ADMIN_PASSWORD:admin123}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  notifications:
+    telegram:
+      bot-token: ${TELEGRAM_BOT_TOKEN:}
+      chat-id: ${TELEGRAM_CHAT_ID:}
+    viber:
+      auth-token: ${VIBER_AUTH_TOKEN:}
