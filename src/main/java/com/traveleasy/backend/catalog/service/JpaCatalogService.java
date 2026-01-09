@@ -92,7 +92,9 @@ public class JpaCatalogService implements CatalogService {
             null,
             null,
             null,
-            new java.util.ArrayList<>()
+            new java.util.ArrayList<>(),
+            summary.minGuests(),
+            summary.maxGuests()
         );
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);

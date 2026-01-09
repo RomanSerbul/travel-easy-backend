@@ -28,7 +28,9 @@ public class InMemoryCatalogService implements CatalogService {
                     true,
                     ProposalStatus.ACTIVE,
                     LocalDate.of(2026, 3, 15),
-                    LocalDate.of(2026, 3, 19)
+                    LocalDate.of(2026, 3, 19),
+                    1,
+                    20
             ),
             new TourProposalSummary(
                     "copenhagen-hygge",
@@ -45,7 +47,9 @@ public class InMemoryCatalogService implements CatalogService {
                     true,
                     ProposalStatus.ACTIVE,
                     LocalDate.of(2026, 4, 1),
-                    LocalDate.of(2026, 4, 6)
+                    LocalDate.of(2026, 4, 6),
+                    1,
+                    15
             ),
             new TourProposalSummary(
                     "istanbul-senses",
@@ -62,7 +66,9 @@ public class InMemoryCatalogService implements CatalogService {
                     false,
                     ProposalStatus.PLANNED,
                     LocalDate.of(2026, 5, 10),
-                    LocalDate.of(2026, 5, 16)
+                    LocalDate.of(2026, 5, 16),
+                    1,
+                    25
             )
     ));
 

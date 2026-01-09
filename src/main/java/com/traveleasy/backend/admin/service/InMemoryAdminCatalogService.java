@@ -37,7 +37,9 @@ public class InMemoryAdminCatalogService implements AdminCatalogService {
             draft.hot() != null && draft.hot(),
             ProposalStatus.PLANNED,
             draft.departureDate(),
-            draft.returnDate()
+            draft.returnDate(),
+            draft.minGuests() != null ? draft.minGuests() : 1,
+            draft.maxGuests() != null ? draft.maxGuests() : 20
         );
         return catalogService.addProposal(summary);
     }
