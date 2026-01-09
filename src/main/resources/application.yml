@@ -2,11 +2,13 @@ spring:
   application:
     name: travel-easy-backend
   datasource:
-    # Railway використовує DATABASE_URL у форматі postgresql://
-    # Spring Boot потребує jdbc:postgresql://
-    url: ${JDBC_DATABASE_URL:${DATABASE_URL:jdbc:postgresql://localhost:5432/travel_easy}}
-    username: ${PGUSER:${DATABASE_USERNAME:keycloak}}
-    password: ${PGPASSWORD:${DATABASE_PASSWORD:keycloak}}
+    # Railway надає окремі змінні для PostgreSQL
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}
+    username: ${PGUSER:keycloak}
+    password: ${PGPASSWORD:keycloak}
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: validate
