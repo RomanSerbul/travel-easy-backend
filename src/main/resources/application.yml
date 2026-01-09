@@ -2,15 +2,18 @@ spring:
   application:
     name: travel-easy-backend
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/travel_easy}
-    username: ${DATABASE_USERNAME:keycloak}
-    password: ${DATABASE_PASSWORD:keycloak}
+    # Railway використовує DATABASE_URL у форматі postgresql://
+    # Spring Boot потребує jdbc:postgresql://
+    url: ${JDBC_DATABASE_URL:${DATABASE_URL:jdbc:postgresql://localhost:5432/travel_easy}}
+    username: ${PGUSER:${DATABASE_USERNAME:keycloak}}
+    password: ${PGPASSWORD:${DATABASE_PASSWORD:keycloak}}
   jpa:
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
   flyway:
     enabled: true
