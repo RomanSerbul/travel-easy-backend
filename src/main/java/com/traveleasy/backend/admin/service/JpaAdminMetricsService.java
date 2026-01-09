@@ -94,7 +94,7 @@ public class JpaAdminMetricsService implements AdminMetricsService {
                 ),
                 new AdminMetrics.MetricItem(
                         "Середній чек",
-                        "€" + Math.round(averageCheck),
+                        "₴" + Math.round(averageCheck),
                         averageCheckChange,
                         averageCheckPositive
                 ),
@@ -106,7 +106,7 @@ public class JpaAdminMetricsService implements AdminMetricsService {
                 ),
                 new AdminMetrics.MetricItem(
                         "Загальний дохід",
-                        "€" + Math.round(totalRevenue),
+                        "₴" + Math.round(totalRevenue),
                         totalRevenueChange,
                         totalRevenuePositive
                 )
