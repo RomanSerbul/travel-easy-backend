@@ -62,7 +62,9 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 draft.departureDate(),
                 draft.returnDate(),
                 ProposalStatus.PLANNED,
-                draft.images()
+                draft.images(),
+                draft.minGuests() != null ? draft.minGuests() : 1,
+                draft.maxGuests() != null ? draft.maxGuests() : 20
         );
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);
@@ -112,6 +114,12 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         if (draft.images() != null) {
             proposal.setImages(draft.images());
         }
+        if (draft.minGuests() != null) {
+            proposal.setMinGuests(draft.minGuests());
+        }
+        if (draft.maxGuests() != null) {
+            proposal.setMaxGuests(draft.maxGuests());
+        }
         
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);
@@ -160,7 +168,9 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 proposal.isHot(),
                 proposal.getStatus(),
                 proposal.getDepartureDate(),
-                proposal.getReturnDate()
+                proposal.getReturnDate(),
+                proposal.getMinGuests(),
+                proposal.getMaxGuests()
         );
     }
 

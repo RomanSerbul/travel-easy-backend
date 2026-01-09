@@ -24,6 +24,8 @@ public record ProposalDraft(
         String includes,
         String exclusions,
         String policy,
-        List<String> images
+        List<String> images,
+        Integer minGuests,
+        Integer maxGuests
 ) {
 }

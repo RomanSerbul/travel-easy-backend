@@ -114,7 +114,9 @@ public class JpaCatalogService implements CatalogService {
                 proposal.isHot(),
                 proposal.getStatus(),
                 proposal.getDepartureDate(),
-                proposal.getReturnDate()
+                proposal.getReturnDate(),
+                proposal.getMinGuests(),
+                proposal.getMaxGuests()
         );
     }
 

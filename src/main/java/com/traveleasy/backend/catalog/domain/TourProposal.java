@@ -72,6 +72,12 @@ public class TourProposal {
     @Column(name = "policy", columnDefinition = "TEXT", nullable = false)
     private String policy = "";
 
+    @Column(name = "min_guests")
+    private int minGuests = 1;
+
+    @Column(name = "max_guests")
+    private int maxGuests = 20;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -95,7 +101,8 @@ public class TourProposal {
     public TourProposal(String slug, String title, String tagline, String city, String country,
                         int durationDays, BigDecimal priceFrom, List<String> tags, String heroImageUrl,
                         boolean hot, String description, String includes, String exclusions, String policy,
-                        LocalDate departureDate, LocalDate returnDate, ProposalStatus status, List<String> images) {
+                        LocalDate departureDate, LocalDate returnDate, ProposalStatus status, List<String> images,
+                        int minGuests, int maxGuests) {
         this.slug = slug;
         this.title = title;
         this.tagline = tagline;
@@ -114,6 +121,8 @@ public class TourProposal {
         this.returnDate = returnDate;
         this.status = status != null ? status : ProposalStatus.PLANNED;
         this.images = images != null ? new ArrayList<>(images) : new ArrayList<>();
+        this.minGuests = minGuests;
+        this.maxGuests = maxGuests;
     }
 
     public Long getId() {
@@ -267,5 +276,21 @@ public class TourProposal {
 
     public void setPolicy(String policy) {
         this.policy = policy;
+    }
+
+    public int getMinGuests() {
+        return minGuests;
+    }
+
+    public void setMinGuests(int minGuests) {
+        this.minGuests = minGuests;
+    }
+
+    public int getMaxGuests() {
+        return maxGuests;
+    }
+
+    public void setMaxGuests(int maxGuests) {
+        this.maxGuests = maxGuests;
     }
 }

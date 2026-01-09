@@ -21,6 +21,8 @@ public record TourProposalSummary(
         boolean hot,
         ProposalStatus status,
         LocalDate departureDate,
-        LocalDate returnDate
+        LocalDate returnDate,
+        int minGuests,
+        int maxGuests
 ) {
 }
