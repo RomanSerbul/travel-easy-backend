@@ -19,6 +19,11 @@ public record ProposalDraft(
         String headline,
         Boolean hot,
         LocalDate departureDate,
-        LocalDate returnDate
+        LocalDate returnDate,
+        String description,
+        String includes,
+        String exclusions,
+        String policy,
+        List<String> images
 ) {
 }

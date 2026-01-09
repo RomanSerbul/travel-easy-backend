@@ -31,10 +31,18 @@ public class JpaAdminCatalogService implements AdminCatalogService {
     @CacheEvict(value = "highlightedProposals", allEntries = true)
     public TourProposalSummary createProposal(ProposalDraft draft) {
         var slug = generateUniqueSlug(draft.title());
-        var defaultDescription = draft.headline() != null ? draft.headline() : draft.title();
-        var defaultIncludes = "Проживання\\nПереліт\\nСніданки\\nПідтримка 24/7";
-        var defaultExclusions = "Віза\\nОсобисті витрати\\nДодаткові екскурсії";
-        var defaultPolicy = "Безкоштовне скасування за 7 днів";
+        var description = draft.description() != null && !draft.description().isBlank() 
+            ? draft.description() 
+            : (draft.headline() != null ? draft.headline() : draft.title());
+        var includes = draft.includes() != null && !draft.includes().isBlank()
+            ? draft.includes()
+            : "Проживання\\n Переліт\\n Сніданки\\n Підтримка 24/7";
+        var exclusions = draft.exclusions() != null && !draft.exclusions().isBlank()
+            ? draft.exclusions()
+            : "Віза\\n Особисті витрати\\n Додаткові екскурсії";
+        var policy = draft.policy() != null && !draft.policy().isBlank()
+            ? draft.policy()
+            : "Безкоштовне скасування за 7 днів";
 
         var proposal = new TourProposal(
                 slug,
@@ -47,13 +55,14 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 draft.tags(),
                 draft.heroImageUrl(),
                 draft.hot() != null && draft.hot(),
-                defaultDescription,
-                defaultIncludes,
-                defaultExclusions,
-                defaultPolicy,
+                description,
+                includes,
+                exclusions,
+                policy,
                 draft.departureDate(),
                 draft.returnDate(),
-                ProposalStatus.PLANNED
+                ProposalStatus.PLANNED,
+                draft.images()
         );
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);
@@ -86,6 +95,23 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         proposal.setHot(draft.hot() != null && draft.hot());
         proposal.setDepartureDate(draft.departureDate());
         proposal.setReturnDate(draft.returnDate());
+        
+        // Update new fields
+        if (draft.description() != null) {
+            proposal.setDescription(draft.description());
+        }
+        if (draft.includes() != null) {
+            proposal.setIncludes(draft.includes());
+        }
+        if (draft.exclusions() != null) {
+            proposal.setExclusions(draft.exclusions());
+        }
+        if (draft.policy() != null) {
+            proposal.setPolicy(draft.policy());
+        }
+        if (draft.images() != null) {
+            proposal.setImages(draft.images());
+        }
         
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);

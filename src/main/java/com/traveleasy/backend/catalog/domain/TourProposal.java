@@ -44,6 +44,11 @@ public class TourProposal {
     @Column(name = "hero_image_url")
     private String heroImageUrl;
 
+    @ElementCollection
+    @CollectionTable(name = "tour_proposal_images", joinColumns = @JoinColumn(name = "tour_proposal_id"))
+    @Column(name = "image_url")
+    private List<String> images = new ArrayList<>();
+
     @Column(name = "hot", nullable = false)
     private boolean hot = false;
 
@@ -90,7 +95,7 @@ public class TourProposal {
     public TourProposal(String slug, String title, String tagline, String city, String country,
                         int durationDays, BigDecimal priceFrom, List<String> tags, String heroImageUrl,
                         boolean hot, String description, String includes, String exclusions, String policy,
-                        LocalDate departureDate, LocalDate returnDate, ProposalStatus status) {
+                        LocalDate departureDate, LocalDate returnDate, ProposalStatus status, List<String> images) {
         this.slug = slug;
         this.title = title;
         this.tagline = tagline;
@@ -108,6 +113,7 @@ public class TourProposal {
         this.departureDate = departureDate;
         this.returnDate = returnDate;
         this.status = status != null ? status : ProposalStatus.PLANNED;
+        this.images = images != null ? new ArrayList<>(images) : new ArrayList<>();
     }
 
     public Long getId() {
@@ -237,5 +243,29 @@ public class TourProposal {
 
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public List<String> getImages() {
+        return new ArrayList<>(images);
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images != null ? new ArrayList<>(images) : new ArrayList<>();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setIncludes(String includes) {
+        this.includes = includes;
+    }
+
+    public void setExclusions(String exclusions) {
+        this.exclusions = exclusions;
+    }
+
+    public void setPolicy(String policy) {
+        this.policy = policy;
     }
 }
