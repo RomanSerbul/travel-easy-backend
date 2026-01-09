@@ -88,7 +88,11 @@ public class JpaCatalogService implements CatalogService {
             defaultDescription,
             defaultIncludes,
             defaultExclusions,
-            defaultPolicy, null, null, null
+            defaultPolicy,
+            null,
+            null,
+            null,
+            new java.util.ArrayList<>()
         );
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);
