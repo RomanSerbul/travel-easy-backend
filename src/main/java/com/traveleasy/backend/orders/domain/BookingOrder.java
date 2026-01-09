@@ -143,6 +143,7 @@ public class BookingOrder {
     public enum BookingStatus {
         PENDING_CONFIRMATION,
         CONFIRMED,
-        CANCELLED
+        CANCELLED,
+        ARCHIVED
     }
 }
