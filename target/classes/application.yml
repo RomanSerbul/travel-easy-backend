@@ -61,8 +61,11 @@ server:
 
 logging:
   level:
-    root: INFO
-    org.springframework.web: INFO
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.data: DEBUG
 
 app:
   url: ${APP_URL:http://localhost:4200}

@@ -36,7 +36,7 @@ INSERT INTO tour_proposals (
     NULL,
     15,
     20,
-    FALSE,
+    false,
     'PLANNED',
     NOW(),
     NOW()
@@ -77,7 +77,7 @@ INSERT INTO tour_proposals (
     NULL,
     15,
     20,
-    FALSE,
+    false,
     'PLANNED',
     NOW(),
     NOW()
@@ -117,7 +117,7 @@ INSERT INTO tour_proposals (
     NULL,
     15,
     20,
-    FALSE,
+    false,
     'PLANNED',
     NOW(),
     NOW()
@@ -157,7 +157,7 @@ INSERT INTO tour_proposals (
     NULL,
     15,
     20,
-    FALSE,
+    false,
     'PLANNED',
     NOW(),
     NOW()
@@ -165,50 +165,42 @@ INSERT INTO tour_proposals (
 
 -- Tags
 INSERT INTO tour_proposal_tags (tour_proposal_id, tag)
-SELECT id, t.tag FROM tour_proposals tp
-JOIN (
-    VALUES
-        ('mikulichin-group-tour', 'Карпати'),
-        ('mikulichin-group-tour', 'Група'),
-        ('mikulichin-group-tour', 'Активний відпочинок'),
-        ('mikulichin-group-tour', 'Культура'),
-        ('mikulichin-group-tour', 'Природа'),
-        ('vorokhta-group-tour', 'Карпати'),
-        ('vorokhta-group-tour', 'Група'),
-        ('vorokhta-group-tour', 'Віадуки'),
-        ('vorokhta-group-tour', 'Активний відпочинок'),
-        ('vorokhta-group-tour', 'Культура'),
-        ('yaremche-group-tour', 'Карпати'),
-        ('yaremche-group-tour', 'Група'),
-        ('yaremche-group-tour', 'Водоспад'),
-        ('yaremche-group-tour', 'Гойдалка'),
-        ('yaremche-group-tour', 'Культура'),
-        ('synevyrska-polyana-group-tour', 'Карпати'),
-        ('synevyrska-polyana-group-tour', 'Група'),
-        ('synevyrska-polyana-group-tour', 'Озеро'),
-        ('synevyrska-polyana-group-tour', 'Природа'),
-        ('synevyrska-polyana-group-tour', 'Еко')
-) AS t(slug, tag) ON tp.slug = t.slug;
+SELECT id, 'Карпати' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'Група' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'Активний відпочинок' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'Культура' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'Природа' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'Карпати' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'Група' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'Віадуки' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'Активний відпочинок' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'Культура' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'Карпати' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'Група' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'Водоспад' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'Гойдалка' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'Культура' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'Карпати' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'Група' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'Озеро' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'Природа' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'Еко' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour';
 
 -- Images
 INSERT INTO tour_proposal_images (tour_proposal_id, image_url)
-SELECT id, img.url FROM tour_proposals tp
-JOIN (
-    VALUES
-        ('mikulichin-group-tour', 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80'),
-        ('mikulichin-group-tour', 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80'),
-        ('mikulichin-group-tour', 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80'),
-        ('mikulichin-group-tour', 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80'),
-        ('vorokhta-group-tour', 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80'),
-        ('vorokhta-group-tour', 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80'),
-        ('vorokhta-group-tour', 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80'),
-        ('vorokhta-group-tour', 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80'),
-        ('yaremche-group-tour', 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80'),
-        ('yaremche-group-tour', 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80'),
-        ('yaremche-group-tour', 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80'),
-        ('yaremche-group-tour', 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80'),
-        ('synevyrska-polyana-group-tour', 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80'),
-        ('synevyrska-polyana-group-tour', 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80'),
-        ('synevyrska-polyana-group-tour', 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80'),
-        ('synevyrska-polyana-group-tour', 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80')
-) AS img(slug, url) ON tp.slug = img.slug;
+SELECT id, 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'mikulichin-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'vorokhta-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'yaremche-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour'
+UNION ALL SELECT id, 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80' FROM tour_proposals WHERE slug = 'synevyrska-polyana-group-tour';
