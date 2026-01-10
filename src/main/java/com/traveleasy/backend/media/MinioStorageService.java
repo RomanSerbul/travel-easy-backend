@@ -1,7 +1,6 @@
 package com.traveleasy.backend.media;
 
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.http.Method;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
