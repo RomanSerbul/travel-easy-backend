@@ -25,15 +25,15 @@ public class MediaController {
     public ResponseEntity<ApiResponse<List<MediaItemDto>>> listMedia() {
         // Aggregate from tour proposals (images)
         var items = tourProposalRepository.findAll().stream()
-                .flatMap(p -> p.getImages().stream().map(url -> toDto(url)))
+                .flatMap(p -> p.getImages().stream().map(url -> toDto(url, p.getSlug(), p.getTitle())))
                 .toList();
         return ResponseEntity.ok(ApiResponse.of(items));
     }
 
-    private MediaItemDto toDto(String url) {
+    private MediaItemDto toDto(String url, String tourSlug, String tourTitle) {
         String fileName = url;
         int idx = url.lastIndexOf('/');
         if (idx >= 0 && idx + 1 < url.length()) fileName = url.substring(idx + 1);
-        return new MediaItemDto(null, url, fileName, java.time.Instant.now(), null);
+        return new MediaItemDto(null, url, fileName, java.time.Instant.now(), null, tourSlug, tourTitle);
     }
 }

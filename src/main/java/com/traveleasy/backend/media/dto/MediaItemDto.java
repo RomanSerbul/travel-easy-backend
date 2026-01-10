@@ -7,6 +7,8 @@ public record MediaItemDto(
         String url,
         String fileName,
         Instant uploadedAt,
-        Long size
+        Long size,
+        String tourSlug,
+        String tourTitle
 ) {
 }

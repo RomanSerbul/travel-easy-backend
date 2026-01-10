@@ -87,6 +87,14 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<TourProposalSummary> listProposalsPaged(int page, int size) {
+        var pageable = org.springframework.data.domain.PageRequest.of(Math.max(page, 0), Math.max(size, 1));
+        return tourProposalRepository.findAll(pageable)
+                .map(this::toSummary)
+                .getContent();
+    }
+
     @Override
     @Transactional(readOnly = true)
     public com.traveleasy.backend.catalog.model.TourProposalDetail getProposalDetail(String slug) {

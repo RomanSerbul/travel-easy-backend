@@ -37,8 +37,12 @@ public class AdminCatalogController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<TourProposalSummary>>> listProposals() {
-        return ResponseEntity.ok(ApiResponse.of(adminCatalogService.listProposals()));
+    public ResponseEntity<ApiResponse<List<TourProposalSummary>>> listProposals(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size
+    ) {
+        return ResponseEntity.ok(ApiResponse.of(((com.traveleasy.backend.admin.service.JpaAdminCatalogService) adminCatalogService)
+                .listProposalsPaged(page, size)));
     }
 
     @GetMapping("/{slug}")
