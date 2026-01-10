@@ -50,6 +50,11 @@ public class InMemoryAdminCatalogService implements AdminCatalogService {
     }
 
     @Override
+    public com.traveleasy.backend.catalog.model.TourProposalDetail getProposalDetail(String slug) {
+        return catalogService.getProposalDetail(slug);
+    }
+
+    @Override
     public TourProposalSummary updateProposal(String slug, ProposalDraft draft) {
         throw new UnsupportedOperationException("Update not supported in in-memory mode");
     }

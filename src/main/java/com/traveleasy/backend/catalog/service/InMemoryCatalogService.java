@@ -108,7 +108,12 @@ public class InMemoryCatalogService implements CatalogService {
                                 summary.tagline() != null ? summary.tagline() : summary.title(),
                                 java.util.List.of("Проживання", "Страхування", "Підтримка 24/7"),
                                 java.util.List.of("Віза", "Харчування", "Особисті витрати"),
-                                "Безкоштовне скасування за 7 днів"
+                                "Безкоштовне скасування за 7 днів",
+                                summary.departureDate(),
+                                summary.returnDate(),
+                                java.util.List.of(),
+                                summary.minGuests(),
+                                summary.maxGuests()
                 );
         }
 }
