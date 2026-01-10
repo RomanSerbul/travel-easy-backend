@@ -69,3 +69,12 @@ app:
       chat-id: ${TELEGRAM_CHAT_ID:}
     viber:
       auth-token: ${VIBER_AUTH_TOKEN:}
+  storage:
+    minio:
+      enabled: ${MINIO_ENABLED:true}
+      bucket: ${MINIO_BUCKET:media}
+      private-endpoint: ${MINIO_PRIVATE_ENDPOINT:http://localhost:9000}
+      public-endpoint: ${MINIO_PUBLIC_ENDPOINT:http://localhost:9000}
+      access-key: ${MINIO_ROOT_USER:}
+      secret-key: ${MINIO_ROOT_PASSWORD:}
+      region: ${MINIO_REGION:}
