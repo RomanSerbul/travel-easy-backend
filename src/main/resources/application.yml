@@ -1,6 +1,10 @@
 spring:
   application:
     name: travel-easy-backend
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   datasource:
     # Railway надає окремі змінні для PostgreSQL
     url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}
