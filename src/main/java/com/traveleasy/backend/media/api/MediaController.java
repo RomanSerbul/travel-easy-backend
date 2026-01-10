@@ -5,6 +5,7 @@ import com.traveleasy.backend.media.dto.MediaItemDto;
 import com.traveleasy.backend.media.service.MediaService;
 import com.traveleasy.backend.catalog.repository.TourProposalRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +23,10 @@ public class MediaController {
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse<List<MediaItemDto>>> listMedia() {
         // Aggregate from tour proposals (images)
-        var items = tourProposalRepository.findAll().stream()
+        var items = tourProposalRepository.findAllWithImages().stream()
                 .flatMap(p -> p.getImages().stream().map(url -> toDto(url, p.getSlug(), p.getTitle())))
                 .toList();
         return ResponseEntity.ok(ApiResponse.of(items));
