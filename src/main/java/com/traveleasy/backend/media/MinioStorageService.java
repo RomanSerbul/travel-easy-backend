@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 @Service
-@ConditionalOnProperty(prefix = "app.storage.minio", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "app.storage.minio", name = "enabled", havingValue = "true")
 public class MinioStorageService implements StorageService {
     private final MinioClient client;
     private final StorageSettings settings;

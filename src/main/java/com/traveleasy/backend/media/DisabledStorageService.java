@@ -1,11 +1,13 @@
 package com.traveleasy.backend.media;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@ConditionalOnProperty(prefix = "app.storage.minio", name = "enabled", havingValue = "false")
+@Primary
+@ConditionalOnProperty(prefix = "app.storage.minio", name = "enabled", havingValue = "false", matchIfMissing = true)
 public class DisabledStorageService implements StorageService {
     private IllegalStateException notEnabled() {
         return new IllegalStateException("Storage is disabled. Set MINIO_ENABLED=true and configure MINIO_* env vars.");
