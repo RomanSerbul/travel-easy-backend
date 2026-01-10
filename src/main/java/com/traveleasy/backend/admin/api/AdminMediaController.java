@@ -1,44 +1,48 @@
 package com.traveleasy.backend.admin.api;
 
 import com.traveleasy.backend.common.dto.ApiResponse;
-import com.traveleasy.backend.media.StorageService;
+import com.traveleasy.backend.media.dto.MediaItemDto;
+import com.traveleasy.backend.media.service.MediaService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/media")
 public class AdminMediaController {
 
-    private final StorageService storageService;
+    private final MediaService mediaService;
 
-    public AdminMediaController(StorageService storageService) {
-        this.storageService = storageService;
+    public AdminMediaController(MediaService mediaService) {
+        this.mediaService = mediaService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<MediaItemDto>>> listMedia() {
+        List<MediaItemDto> items = mediaService.listAll();
+        return ResponseEntity.ok(ApiResponse.of(items));
     }
 
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<Map<String, String>>> upload(
+    public ResponseEntity<ApiResponse<MediaItemDto>> upload(
             @RequestPart("file") MultipartFile file,
             @RequestParam(value = "folder", required = false) String folder
     ) throws Exception {
-        String url = storageService.upload(file, folder != null ? folder : "uploads");
-        return ResponseEntity.ok(ApiResponse.of(Map.of(
-                "url", url
-        )));
+        MediaItemDto item = mediaService.upload(file, folder != null ? folder : "gallery");
+        return ResponseEntity.ok(ApiResponse.of(item));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<ApiResponse<Map<String, String>>> delete(
-            @RequestParam(value = "url", required = false) String url,
-            @RequestParam(value = "key", required = false) String key
+            @RequestBody Map<String, String> body
     ) throws Exception {
-        if (key != null && !key.isBlank()) {
-            storageService.delete(key);
-        } else if (url != null && !url.isBlank()) {
-            storageService.deleteByUrl(url);
+        String url = body.get("url");
+        if (url != null && !url.isBlank()) {
+            mediaService.deleteByUrl(url);
         }
         return ResponseEntity.ok(ApiResponse.of(Map.of("status", "ok")));
     }
