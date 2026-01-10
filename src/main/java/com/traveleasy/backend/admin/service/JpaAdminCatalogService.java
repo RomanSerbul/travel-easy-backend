@@ -21,9 +21,12 @@ import java.util.UUID;
 public class JpaAdminCatalogService implements AdminCatalogService {
 
     private final TourProposalRepository tourProposalRepository;
+    private final com.traveleasy.backend.media.StorageService storageService;
 
-    public JpaAdminCatalogService(TourProposalRepository tourProposalRepository) {
+    public JpaAdminCatalogService(TourProposalRepository tourProposalRepository,
+                                  com.traveleasy.backend.media.StorageService storageService) {
         this.tourProposalRepository = tourProposalRepository;
+        this.storageService = storageService;
     }
 
     @Override
@@ -84,6 +87,9 @@ public class JpaAdminCatalogService implements AdminCatalogService {
     public TourProposalSummary updateProposal(String slug, ProposalDraft draft) {
         var proposal = tourProposalRepository.findBySlug(slug)
                 .orElseThrow(() -> new DomainException("Proposal not found"));
+        // Keep old media refs for cleanup
+        var oldHero = proposal.getHeroImageUrl();
+        var oldImages = proposal.getImages();
         
         // Update fields directly using setters
         proposal.setTitle(draft.title());
@@ -122,6 +128,22 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         }
         
         var saved = tourProposalRepository.save(proposal);
+        // Cleanup removed media
+        try {
+            if (oldHero != null && !oldHero.isBlank()
+                    && draft.heroImageUrl() != null
+                    && !oldHero.equals(draft.heroImageUrl())) {
+                storageService.deleteByUrl(oldHero);
+            }
+            if (oldImages != null && !oldImages.isEmpty() && draft.images() != null) {
+                var newSet = new java.util.HashSet<>(draft.images());
+                for (var url : oldImages) {
+                    if (!newSet.contains(url)) {
+                        storageService.deleteByUrl(url);
+                    }
+                }
+            }
+        } catch (Exception ignore) {}
         return toSummary(saved);
     }
 
@@ -149,6 +171,17 @@ public class JpaAdminCatalogService implements AdminCatalogService {
     public void deleteProposal(String slug) {
         var proposal = tourProposalRepository.findBySlug(slug)
                 .orElseThrow(() -> new DomainException("Proposal not found"));
+        // Cleanup all media
+        try {
+            if (proposal.getHeroImageUrl() != null) {
+                storageService.deleteByUrl(proposal.getHeroImageUrl());
+            }
+            if (proposal.getImages() != null) {
+                for (var url : proposal.getImages()) {
+                    storageService.deleteByUrl(url);
+                }
+            }
+        } catch (Exception ignore) {}
         tourProposalRepository.delete(proposal);
     }
 

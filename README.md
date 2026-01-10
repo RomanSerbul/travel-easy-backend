@@ -31,6 +31,20 @@ Env-параметри в `.env` або змінних середовища:
 4. Налаштуйте секректи `MAIL_*`, `TELEGRAM_*`, `VIBER_*` у Dashboard → Variables.
 5. Health-check → `/actuator/health`. Railway PORT надається через `PORT` env (Spring вже читає).
 
+### Зберігання медіа (MinIO)
+- Увімкнення: `MINIO_ENABLED=true` (за замовчуванням вимкнено в проді).
+- Обов'язкові змінні:
+  - `MINIO_PRIVATE_ENDPOINT` — приватний SDK endpoint (наприклад, `https://minio.example.com`).
+  - `MINIO_PUBLIC_ENDPOINT` — публічний CDN/endpoint для формування URL.
+  - `MINIO_BUCKET` — назва бакету, напр. `media`.
+  - `MINIO_ROOT_USER` — access key.
+  - `MINIO_ROOT_PASSWORD` — secret key.
+  - `MINIO_REGION` — (опційно) регіон.
+- Ендпоїнти:
+  - `POST /api/admin/media/upload` — multipart `file`, опційно `folder`; повертає `{ url }`.
+  - `DELETE /api/admin/media/delete` — `key` або `url`.
+- Примітка: якщо `MINIO_ENABLED=false` або креденшли відсутні — стартує DisabledStorageService, і медіа-операції повернуть 500.
+
 ## Модулі
 - `/api/catalog` — публічний каталог (ін меморі stub, готовий до JPA).
 - `/api/orders` — створення wizard-сесії та підтвердження бронювання (генерує нотифікації).

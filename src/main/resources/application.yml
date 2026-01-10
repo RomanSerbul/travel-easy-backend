@@ -71,7 +71,7 @@ app:
       auth-token: ${VIBER_AUTH_TOKEN:}
   storage:
     minio:
-      enabled: ${MINIO_ENABLED:true}
+      enabled: ${MINIO_ENABLED:false}
       bucket: ${MINIO_BUCKET:media}
       private-endpoint: ${MINIO_PRIVATE_ENDPOINT:http://localhost:9000}
       public-endpoint: ${MINIO_PUBLIC_ENDPOINT:http://localhost:9000}

@@ -2,10 +2,12 @@ package com.traveleasy.backend.media;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(prefix = "app.storage.minio", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class MinioConfig {
 
     @Bean

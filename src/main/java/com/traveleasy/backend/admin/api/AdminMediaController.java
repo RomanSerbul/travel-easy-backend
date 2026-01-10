@@ -29,4 +29,17 @@ public class AdminMediaController {
                 "url", url
         )));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<Map<String, String>>> delete(
+            @RequestParam(value = "url", required = false) String url,
+            @RequestParam(value = "key", required = false) String key
+    ) throws Exception {
+        if (key != null && !key.isBlank()) {
+            storageService.delete(key);
+        } else if (url != null && !url.isBlank()) {
+            storageService.deleteByUrl(url);
+        }
+        return ResponseEntity.ok(ApiResponse.of(Map.of("status", "ok")));
+    }
 }

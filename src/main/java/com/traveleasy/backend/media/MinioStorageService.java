@@ -3,6 +3,7 @@ package com.traveleasy.backend.media;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -13,6 +14,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 @Service
+@ConditionalOnProperty(prefix = "app.storage.minio", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class MinioStorageService implements StorageService {
     private final MinioClient client;
     private final StorageSettings settings;
@@ -47,6 +49,18 @@ public class MinioStorageService implements StorageService {
                 .object(objectKey)
                 .build();
         client.removeObject(args);
+    }
+
+    @Override
+    public void deleteByUrl(String url) throws Exception {
+        if (url == null || url.isBlank()) return;
+        String base = settings.publicEndpoint() != null ? settings.publicEndpoint().replaceAll("/$", "") : null;
+        String prefix = base != null ? (base + "/" + settings.bucket() + "/") : null;
+        if (prefix != null && url.startsWith(prefix)) {
+            String key = url.substring(prefix.length());
+            delete(key);
+        }
+        // If not matched, silently ignore (it might be an external URL)
     }
 
     private void ensureBucket() throws Exception {
