@@ -29,7 +29,9 @@ public class MediaService {
                         entity.getUrl(),
                         entity.getFileName(),
                         entity.getUploadedAt(),
-                        entity.getSize()
+                    entity.getSize(),
+                    null,
+                    null
                 ))
                 .collect(Collectors.toList());
     }
@@ -52,7 +54,9 @@ public class MediaService {
                 entity.getUrl(),
                 entity.getFileName(),
                 entity.getUploadedAt(),
-                entity.getSize()
+            entity.getSize(),
+            null,
+            null
         );
     }
 
