@@ -40,6 +40,11 @@ public class AdminCatalogController {
         return ResponseEntity.ok(ApiResponse.of(adminCatalogService.listProposals()));
     }
 
+    @GetMapping("/{slug}")
+    public ResponseEntity<ApiResponse<com.traveleasy.backend.catalog.model.TourProposalDetail>> getProposal(@PathVariable String slug) {
+        return ResponseEntity.ok(ApiResponse.of(adminCatalogService.getProposalDetail(slug)));
+    }
+
     @PutMapping("/{slug}")
     public ResponseEntity<ApiResponse<TourProposalSummary>> updateProposal(@PathVariable String slug, @Valid @RequestBody ProposalDraft draft) {
         return ResponseEntity.ok(ApiResponse.of(adminCatalogService.updateProposal(slug, draft)));

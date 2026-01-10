@@ -62,7 +62,12 @@ public class JpaCatalogService implements CatalogService {
                     valueOrFallback(proposal.getDescription(), proposal.getTagline(), proposal.getTitle()),
                     splitList(proposal.getIncludes()),
                     splitList(proposal.getExclusions()),
-                    firstNonBlank(proposal.getPolicy(), "Безкоштовне скасування за 7 днів")
+                    firstNonBlank(proposal.getPolicy(), "Безкоштовне скасування за 7 днів"),
+                    proposal.getDepartureDate(),
+                    proposal.getReturnDate(),
+                    proposal.getImages() != null ? proposal.getImages() : java.util.List.of(),
+                    proposal.getMinGuests(),
+                    proposal.getMaxGuests()
             );
         }
 

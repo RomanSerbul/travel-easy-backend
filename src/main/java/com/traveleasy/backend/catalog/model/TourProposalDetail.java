@@ -1,6 +1,7 @@
 package com.traveleasy.backend.catalog.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public record TourProposalDetail(
@@ -17,6 +18,11 @@ public record TourProposalDetail(
         String description,
         List<String> includes,
         List<String> exclusions,
-        String policy
+        String policy,
+        LocalDate departureDate,
+        LocalDate returnDate,
+        List<String> images,
+        int minGuests,
+        int maxGuests
 ) {
 }

@@ -82,6 +82,35 @@ public class JpaAdminCatalogService implements AdminCatalogService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public com.traveleasy.backend.catalog.model.TourProposalDetail getProposalDetail(String slug) {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        
+        return new com.traveleasy.backend.catalog.model.TourProposalDetail(
+                proposal.getSlug(),
+                proposal.getTitle(),
+                proposal.getTagline(),
+                proposal.getCity(),
+                proposal.getCountry(),
+                proposal.getDurationDays(),
+                proposal.getPriceFrom(),
+                proposal.getTags(),
+                proposal.getHeroImageUrl(),
+                proposal.isHot(),
+                proposal.getDescription() != null ? proposal.getDescription() : proposal.getTagline(),
+                proposal.getIncludes() != null ? java.util.Arrays.asList(proposal.getIncludes().split("\\n")) : java.util.List.of(),
+                proposal.getExclusions() != null ? java.util.Arrays.asList(proposal.getExclusions().split("\\n")) : java.util.List.of(),
+                proposal.getPolicy() != null ? proposal.getPolicy() : "Безкоштовне скасування за 7 днів",
+                proposal.getDepartureDate(),
+                proposal.getReturnDate(),
+                proposal.getImages() != null ? proposal.getImages() : java.util.List.of(),
+                proposal.getMinGuests(),
+                proposal.getMaxGuests()
+        );
+    }
+
+    @Override
     @Transactional
     @CacheEvict(value = "highlightedProposals", allEntries = true)
     public TourProposalSummary updateProposal(String slug, ProposalDraft draft) {
