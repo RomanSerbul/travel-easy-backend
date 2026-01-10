@@ -2,8 +2,10 @@ spring:
   application:
     name: travel-easy-backend
   datasource:
-    # Railway надає JDBC_DATABASE_URL у форматі jdbc:postgresql://user:pass@host:port/db
-    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/travel_easy}
+    # Railway надає окремі змінні для PostgreSQL
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}
+    username: ${PGUSER:postgres}
+    password: ${PGPASSWORD:password}
     hikari:
       maximum-pool-size: 5
       minimum-idle: 2
