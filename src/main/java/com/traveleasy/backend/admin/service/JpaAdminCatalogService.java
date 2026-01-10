@@ -230,6 +230,42 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         tourProposalRepository.save(proposal);
     }
 
+    // --- Images management ---
+    @Transactional
+    @CacheEvict(value = "highlightedProposals", allEntries = true)
+    public String uploadImage(String slug, org.springframework.web.multipart.MultipartFile file) throws Exception {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        var url = storageService.upload(file, "gallery/" + slug);
+        var images = proposal.getImages();
+        images.add(url);
+        proposal.setImages(images);
+        tourProposalRepository.save(proposal);
+        return url;
+    }
+
+    @Transactional
+    @CacheEvict(value = "highlightedProposals", allEntries = true)
+    public void deleteImage(String slug, String imageUrl) throws Exception {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        var images = proposal.getImages();
+        if (images.remove(imageUrl)) {
+            proposal.setImages(images);
+            tourProposalRepository.save(proposal);
+            try { storageService.deleteByUrl(imageUrl); } catch (Exception ignore) {}
+        }
+    }
+
+    @Transactional
+    @CacheEvict(value = "highlightedProposals", allEntries = true)
+    public void reorderImages(String slug, java.util.List<String> images) {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        proposal.setImages(images != null ? images : java.util.List.of());
+        tourProposalRepository.save(proposal);
+    }
+
     @Override
     @Transactional
     @CacheEvict(value = "highlightedProposals", allEntries = true)
