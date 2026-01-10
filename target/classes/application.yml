@@ -3,12 +3,16 @@ spring:
     name: travel-easy-backend
   datasource:
     # Railway надає окремі змінні для PostgreSQL
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}?connectTimeout=10
     username: ${PGUSER:keycloak}
     password: ${PGPASSWORD:keycloak}
     hikari:
       maximum-pool-size: 5
+      minimum-idle: 2
       connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 60000
   jpa:
     hibernate:
       ddl-auto: validate
@@ -71,7 +75,7 @@ app:
       auth-token: ${VIBER_AUTH_TOKEN:}
   storage:
     minio:
-      enabled: ${MINIO_ENABLED:true}
+      enabled: ${MINIO_ENABLED:false}
       bucket: ${MINIO_BUCKET:media}
       private-endpoint: ${MINIO_PRIVATE_ENDPOINT:http://localhost:9000}
       public-endpoint: ${MINIO_PUBLIC_ENDPOINT:http://localhost:9000}
