@@ -26,6 +26,13 @@ public record ProposalDraft(
         String policy,
         List<String> images,
         Integer minGuests,
-        Integer maxGuests
+        Integer maxGuests,
+        String programDetails,
+        String difficultyLevel,
+        String targetAudience,
+        List<String> attractions,
+        List<String> activities,
+        List<String> highlights,
+        String departureLocations
 ) {
 }

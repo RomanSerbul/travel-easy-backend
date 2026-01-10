@@ -23,6 +23,13 @@ public record TourProposalDetail(
         LocalDate returnDate,
         List<String> images,
         int minGuests,
-        int maxGuests
+        int maxGuests,
+        String programDetails,
+        String difficultyLevel,
+        String targetAudience,
+        List<String> attractions,
+        List<String> activities,
+        List<String> highlights,
+        String departureLocations
 ) {
 }

@@ -69,6 +69,12 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 draft.minGuests() != null ? draft.minGuests() : 1,
                 draft.maxGuests() != null ? draft.maxGuests() : 20
         );
+        proposal.setProgramDetails(draft.programDetails());
+        proposal.setDifficultyLevel(draft.difficultyLevel());
+        proposal.setTargetAudience(draft.targetAudience());
+        proposal.setAttractions(draft.attractions());
+        proposal.setActivities(draft.activities());
+        proposal.setHighlights(draft.highlights());
         var saved = tourProposalRepository.save(proposal);
         return toSummary(saved);
     }
@@ -106,7 +112,14 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 proposal.getReturnDate(),
                 proposal.getImages() != null ? proposal.getImages() : java.util.List.of(),
                 proposal.getMinGuests(),
-                proposal.getMaxGuests()
+                proposal.getMaxGuests(),
+                proposal.getProgramDetails(),
+                proposal.getDifficultyLevel(),
+                proposal.getTargetAudience(),
+                proposal.getAttractions() != null ? proposal.getAttractions() : java.util.List.of(),
+                proposal.getActivities() != null ? proposal.getActivities() : java.util.List.of(),
+                proposal.getHighlights() != null ? proposal.getHighlights() : java.util.List.of(),
+                proposal.getDepartureLocations()
         );
     }
 
@@ -154,6 +167,29 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         }
         if (draft.maxGuests() != null) {
             proposal.setMaxGuests(draft.maxGuests());
+        }
+        
+        // Update new program detail fields
+        if (draft.programDetails() != null) {
+            proposal.setProgramDetails(draft.programDetails());
+        }
+        if (draft.difficultyLevel() != null) {
+            proposal.setDifficultyLevel(draft.difficultyLevel());
+        }
+        if (draft.targetAudience() != null) {
+            proposal.setTargetAudience(draft.targetAudience());
+        }
+        if (draft.attractions() != null) {
+            proposal.setAttractions(draft.attractions());
+        }
+        if (draft.activities() != null) {
+            proposal.setActivities(draft.activities());
+        }
+        if (draft.highlights() != null) {
+            proposal.setHighlights(draft.highlights());
+        }
+        if (draft.departureLocations() != null) {
+            proposal.setDepartureLocations(draft.departureLocations());
         }
         
         var saved = tourProposalRepository.save(proposal);

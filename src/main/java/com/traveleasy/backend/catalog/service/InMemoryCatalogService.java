@@ -113,7 +113,14 @@ public class InMemoryCatalogService implements CatalogService {
                                 summary.returnDate(),
                                 java.util.List.of(),
                                 summary.minGuests(),
-                                summary.maxGuests()
+                                summary.maxGuests(),
+                                "",
+                                "Середній",
+                                "",
+                                java.util.List.of(),
+                                java.util.List.of(),
+                                java.util.List.of(),
+                                ""
                 );
         }
 }

@@ -67,7 +67,14 @@ public class JpaCatalogService implements CatalogService {
                     proposal.getReturnDate(),
                     proposal.getImages() != null ? proposal.getImages() : java.util.List.of(),
                     proposal.getMinGuests(),
-                    proposal.getMaxGuests()
+                    proposal.getMaxGuests(),
+                    proposal.getProgramDetails(),
+                    proposal.getDifficultyLevel(),
+                    proposal.getTargetAudience(),
+                    proposal.getAttractions() != null ? proposal.getAttractions() : java.util.List.of(),
+                    proposal.getActivities() != null ? proposal.getActivities() : java.util.List.of(),
+                    proposal.getHighlights() != null ? proposal.getHighlights() : java.util.List.of(),
+                    proposal.getDepartureLocations()
             );
         }
 

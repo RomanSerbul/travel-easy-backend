@@ -72,6 +72,33 @@ public class TourProposal {
     @Column(name = "policy", columnDefinition = "TEXT", nullable = false)
     private String policy = "";
 
+    @Column(name = "program_details", columnDefinition = "TEXT")
+    private String programDetails = "";
+
+    @ElementCollection
+    @CollectionTable(name = "tour_proposal_attractions", joinColumns = @JoinColumn(name = "tour_proposal_id"))
+    @Column(name = "attraction")
+    private List<String> attractions = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "tour_proposal_activities", joinColumns = @JoinColumn(name = "tour_proposal_id"))
+    @Column(name = "activity")
+    private List<String> activities = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "tour_proposal_highlights", joinColumns = @JoinColumn(name = "tour_proposal_id"))
+    @Column(name = "highlight")
+    private List<String> highlights = new ArrayList<>();
+
+    @Column(name = "difficulty_level")
+    private String difficultyLevel = "";
+
+    @Column(name = "target_audience", columnDefinition = "TEXT")
+    private String targetAudience = "";
+
+    @Column(name = "departure_locations", columnDefinition = "TEXT")
+    private String departureLocations = "";
+
     @Column(name = "min_guests")
     private int minGuests = 1;
 
@@ -272,6 +299,62 @@ public class TourProposal {
 
     public void setExclusions(String exclusions) {
         this.exclusions = exclusions;
+    }
+
+    public String getProgramDetails() {
+        return programDetails;
+    }
+
+    public void setProgramDetails(String programDetails) {
+        this.programDetails = programDetails;
+    }
+
+    public List<String> getAttractions() {
+        return new ArrayList<>(attractions);
+    }
+
+    public void setAttractions(List<String> attractions) {
+        this.attractions = attractions != null ? new ArrayList<>(attractions) : new ArrayList<>();
+    }
+
+    public List<String> getActivities() {
+        return new ArrayList<>(activities);
+    }
+
+    public void setActivities(List<String> activities) {
+        this.activities = activities != null ? new ArrayList<>(activities) : new ArrayList<>();
+    }
+
+    public List<String> getHighlights() {
+        return new ArrayList<>(highlights);
+    }
+
+    public void setHighlights(List<String> highlights) {
+        this.highlights = highlights != null ? new ArrayList<>(highlights) : new ArrayList<>();
+    }
+
+    public String getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(String difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
+    }
+
+    public String getTargetAudience() {
+        return targetAudience;
+    }
+
+    public void setTargetAudience(String targetAudience) {
+        this.targetAudience = targetAudience;
+    }
+
+    public String getDepartureLocations() {
+        return departureLocations;
+    }
+
+    public void setDepartureLocations(String departureLocations) {
+        this.departureLocations = departureLocations;
     }
 
     public void setPolicy(String policy) {
