@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -38,6 +39,7 @@ public class EmailNotificationChannel implements NotificationChannel {
     }
 
     @Override
+    @Async
     public void send(NotificationPayload payload) {
         // Send confirmation to customer
         sendCustomerEmail(payload);
@@ -63,7 +65,7 @@ public class EmailNotificationChannel implements NotificationChannel {
             mailSender.send(message);
             log.info("Customer confirmation email sent to {}", payload.variables().get("email"));
         } catch (Exception ex) {
-            log.warn("Failed to send customer email notification", ex);
+            log.warn("Failed to send customer email notification: {}", ex.getMessage());
         }
     }
 
@@ -87,7 +89,7 @@ public class EmailNotificationChannel implements NotificationChannel {
             mailSender.send(message);
             log.info("Manager notification email sent to {}", managerEmail);
         } catch (Exception ex) {
-            log.warn("Failed to send manager email notification", ex);
+            log.warn("Failed to send manager email notification: {}", ex.getMessage());
         }
     }
 }

@@ -31,15 +31,21 @@ spring:
     validate-on-migrate: false
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
+    port: ${MAIL_PORT:465}
     username: ${MAIL_USERNAME:romanserbul@gmail.com}
     password: ${MAIL_PASSWORD:sqaicrwucxynskzu}
     properties:
       mail:
         smtp:
           auth: ${MAIL_SMTP_AUTH:true}
-          starttls:
-            enable: ${MAIL_SMTP_STARTTLS:true}
+          ssl:
+            enable: ${MAIL_SMTP_SSL:true}
+          socketFactory:
+            port: ${MAIL_PORT:465}
+            class: javax.net.ssl.SSLSocketFactory
+          connectiontimeout: 10000
+          timeout: 10000
+          writetimeout: 10000
   cache:
     type: simple
   data:
