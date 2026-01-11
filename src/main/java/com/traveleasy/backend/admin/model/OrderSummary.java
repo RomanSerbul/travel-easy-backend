@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record OrderSummary(
         UUID id,
+        Long orderNumber,
         String proposalId,
         String proposalTitle,
         String customerName,

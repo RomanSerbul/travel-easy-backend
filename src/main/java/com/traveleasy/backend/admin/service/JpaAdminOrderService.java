@@ -108,6 +108,7 @@ public class JpaAdminOrderService implements AdminOrderService {
                 .orElse(order.getProposalId());
         return new OrderSummary(
                 order.getId(),
+                order.getOrderNumber(),
                 order.getProposalId(),
                 proposalTitle,
                 order.getCustomerName(),
