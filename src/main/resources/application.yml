@@ -6,17 +6,20 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
   datasource:
-    # Railway надає окремі змінні для PostgreSQL
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}
+    # Railway PostgreSQL - використовуємо внутрішню мережу
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}?sslmode=disable&connectTimeout=10&socketTimeout=30
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
     hikari:
-      maximum-pool-size: 5
+      maximum-pool-size: 10
       minimum-idle: 2
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 900000
+      keepalive-time: 60000
+      validation-timeout: 5000
       leak-detection-threshold: 60000
+      connection-test-query: SELECT 1
   jpa:
     hibernate:
       ddl-auto: validate
@@ -74,6 +77,7 @@ app:
     viber:
       auth-token: ${VIBER_AUTH_TOKEN:}
     email:
+
       from: ${MAIL_FROM:romanserbul@gmail.com}
       manager: ${MAIL_MANAGER:romanserbul@gmail.com}
       resend-api-key: ${RESEND_API_KEY:re_SDXYH4Vw_5AJycLH9TmsP5LR5wFgmmUEP}
