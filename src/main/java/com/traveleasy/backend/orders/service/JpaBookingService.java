@@ -7,6 +7,7 @@ import com.traveleasy.backend.orders.model.BookingOrderRequest;
 import com.traveleasy.backend.orders.model.BookingOrderResponse;
 import com.traveleasy.backend.orders.model.BookingWizardSession;
 import com.traveleasy.backend.orders.repository.BookingOrderRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +23,14 @@ public class JpaBookingService implements BookingService {
 
     private final BookingOrderRepository bookingOrderRepository;
     private final NotificationService notificationService;
+    private final EntityManager entityManager;
 
     public JpaBookingService(BookingOrderRepository bookingOrderRepository,
-                             NotificationService notificationService) {
+                             NotificationService notificationService,
+                             EntityManager entityManager) {
         this.bookingOrderRepository = bookingOrderRepository;
         this.notificationService = notificationService;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -51,6 +55,10 @@ public class JpaBookingService implements BookingService {
         );
 
         var saved = bookingOrderRepository.save(order);
+        
+        // Flush to DB and refresh to get database-generated orderNumber
+        bookingOrderRepository.flush();
+        entityManager.refresh(saved);
 
         var variables = new HashMap<String, Object>();
         variables.put("orderId", saved.getId());
