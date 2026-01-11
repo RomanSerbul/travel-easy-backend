@@ -29,6 +29,9 @@ public class EmailNotificationChannel implements NotificationChannel {
     @Value("${app.notifications.email.manager:}")
     private String managerEmail;
 
+    @Value("${app.notifications.email.verified-domain:false}")
+    private boolean hasVerifiedDomain;
+
     public EmailNotificationChannel(
             @Value("${app.notifications.email.resend-api-key:}") String resendApiKey,
             TemplateEngine templateEngine) {
@@ -56,6 +59,14 @@ public class EmailNotificationChannel implements NotificationChannel {
     private void sendCustomerEmail(NotificationPayload payload) {
         try {
             String toEmail = (String) payload.variables().getOrDefault("email", "test@example.com");
+            
+            // Without verified domain, Resend only allows sending to owner's email
+            if (!hasVerifiedDomain && !toEmail.equalsIgnoreCase(managerEmail)) {
+                log.info("Skipping customer email to {} - no verified domain. Only manager ({}) will receive notification.", 
+                        toEmail, managerEmail);
+                return;
+            }
+            
             String subject = (String) payload.variables().getOrDefault("subject", "Travel Easy – Підтвердження бронювання");
 
             var context = new Context();
