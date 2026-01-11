@@ -77,7 +77,7 @@ app:
     viber:
       auth-token: ${VIBER_AUTH_TOKEN:}
     email:
-
+      verified-domain: ${MAIL_VERIFIED_DOMAIN:false}
       from: ${MAIL_FROM:romanserbul@gmail.com}
       manager: ${MAIL_MANAGER:romanserbul@gmail.com}
       resend-api-key: ${RESEND_API_KEY:re_SDXYH4Vw_5AJycLH9TmsP5LR5wFgmmUEP}
