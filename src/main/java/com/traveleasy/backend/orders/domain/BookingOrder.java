@@ -16,8 +16,6 @@ public class BookingOrder {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_order_seq")
-    @SequenceGenerator(name = "booking_order_seq", sequenceName = "booking_order_number_seq", allocationSize = 1)
     @Column(name = "order_number", nullable = false, unique = true)
     private Long orderNumber;
 
