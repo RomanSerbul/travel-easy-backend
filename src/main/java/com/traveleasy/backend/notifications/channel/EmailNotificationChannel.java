@@ -1,11 +1,12 @@
 package com.traveleasy.backend.notifications.channel;
 
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.CreateEmailOptions;
 import com.traveleasy.backend.notifications.model.NotificationPayload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -19,17 +20,19 @@ public class EmailNotificationChannel implements NotificationChannel {
 
     private static final Logger log = LoggerFactory.getLogger(EmailNotificationChannel.class);
 
-    private final JavaMailSender mailSender;
+    private final Resend resend;
     private final TemplateEngine templateEngine;
 
-    @Value("${app.notifications.email.from:noreply@traveleasy.com}")
+    @Value("${app.notifications.email.from:romanserbul@gmail.com}")
     private String fromEmail;
 
     @Value("${app.notifications.email.manager:}")
     private String managerEmail;
 
-    public EmailNotificationChannel(JavaMailSender mailSender, TemplateEngine templateEngine) {
-        this.mailSender = mailSender;
+    public EmailNotificationChannel(
+            @Value("${app.notifications.email.resend-api-key:}") String resendApiKey,
+            TemplateEngine templateEngine) {
+        this.resend = new Resend(resendApiKey);
         this.templateEngine = templateEngine;
     }
 
@@ -51,32 +54,30 @@ public class EmailNotificationChannel implements NotificationChannel {
     }
 
     private void sendCustomerEmail(NotificationPayload payload) {
-        var message = mailSender.createMimeMessage();
         try {
-            var helper = new MimeMessageHelper(message, "UTF-8");
-            helper.setFrom(fromEmail);
-            helper.setTo((String) payload.variables().getOrDefault("email", "test@example.com"));
-            helper.setSubject((String) payload.variables().getOrDefault("subject", "Travel Easy – Підтвердження бронювання"));
+            String toEmail = (String) payload.variables().getOrDefault("email", "test@example.com");
+            String subject = (String) payload.variables().getOrDefault("subject", "Travel Easy – Підтвердження бронювання");
 
             var context = new Context();
             context.setVariables(payload.variables());
-            helper.setText(templateEngine.process(payload.template(), context), true);
+            String htmlContent = templateEngine.process(payload.template(), context);
 
-            mailSender.send(message);
-            log.info("Customer confirmation email sent to {}", payload.variables().get("email"));
-        } catch (Exception ex) {
-            log.warn("Failed to send customer email notification: {}", ex.getMessage());
+            CreateEmailOptions params = CreateEmailOptions.builder()
+                    .from("Travel Easy <onboarding@resend.dev>")
+                    .to(toEmail)
+                    .subject(subject)
+                    .html(htmlContent)
+                    .build();
+
+            resend.emails().send(params);
+            log.info("Customer confirmation email sent to {} via Resend", toEmail);
+        } catch (ResendException ex) {
+            log.warn("Failed to send customer email via Resend: {}", ex.getMessage());
         }
     }
 
     private void sendManagerEmail(NotificationPayload payload) {
-        var message = mailSender.createMimeMessage();
         try {
-            var helper = new MimeMessageHelper(message, "UTF-8");
-            helper.setFrom(fromEmail);
-            helper.setTo(managerEmail);
-            helper.setSubject("🔔 Нове замовлення #" + payload.variables().getOrDefault("orderId", "N/A"));
-
             var vars = new HashMap<>(payload.variables());
             vars.put("createdAt", LocalDateTime.now());
             vars.put("customerEmail", payload.variables().get("email"));
@@ -84,12 +85,19 @@ public class EmailNotificationChannel implements NotificationChannel {
 
             var context = new Context();
             context.setVariables(vars);
-            helper.setText(templateEngine.process("manager-notification", context), true);
+            String htmlContent = templateEngine.process("manager-notification", context);
 
-            mailSender.send(message);
-            log.info("Manager notification email sent to {}", managerEmail);
-        } catch (Exception ex) {
-            log.warn("Failed to send manager email notification: {}", ex.getMessage());
+            CreateEmailOptions params = CreateEmailOptions.builder()
+                    .from("Travel Easy <onboarding@resend.dev>")
+                    .to(managerEmail)
+                    .subject("🔔 Нове замовлення #" + payload.variables().getOrDefault("orderId", "N/A"))
+                    .html(htmlContent)
+                    .build();
+
+            resend.emails().send(params);
+            log.info("Manager notification email sent to {} via Resend", managerEmail);
+        } catch (ResendException ex) {
+            log.warn("Failed to send manager email via Resend: {}", ex.getMessage());
         }
     }
 }

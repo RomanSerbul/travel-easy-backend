@@ -29,23 +29,10 @@ spring:
     enabled: true
     baseline-on-migrate: true
     validate-on-migrate: false
-  mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:465}
-    username: ${MAIL_USERNAME:romanserbul@gmail.com}
-    password: ${MAIL_PASSWORD:sqaicrwucxynskzu}
-    properties:
-      mail:
-        smtp:
-          auth: ${MAIL_SMTP_AUTH:true}
-          ssl:
-            enable: ${MAIL_SMTP_SSL:true}
-          socketFactory:
-            port: ${MAIL_PORT:465}
-            class: javax.net.ssl.SSLSocketFactory
-          connectiontimeout: 10000
-          timeout: 10000
-          writetimeout: 10000
+  # SMTP disabled - using Resend API instead
+  # mail:
+  #   host: smtp.gmail.com
+  #   port: 465
   cache:
     type: simple
   data:
@@ -89,6 +76,7 @@ app:
     email:
       from: ${MAIL_FROM:romanserbul@gmail.com}
       manager: ${MAIL_MANAGER:romanserbul@gmail.com}
+      resend-api-key: ${RESEND_API_KEY:re_SDXYH4Vw_5AJycLH9TmsP5LR5wFgmmUEP}
   storage:
     minio:
       enabled: ${MINIO_ENABLED:false}
