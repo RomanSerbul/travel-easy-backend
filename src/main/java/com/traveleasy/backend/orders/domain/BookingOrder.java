@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "booking_orders")
+@DynamicInsert
 public class BookingOrder {
 
     @Id
