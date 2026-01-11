@@ -1,6 +1,8 @@
 package com.traveleasy.backend.orders.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,7 +18,8 @@ public class BookingOrder {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "order_number", nullable = false, unique = true)
+    @Generated(GenerationTime.INSERT)
+    @Column(name = "order_number", nullable = false, unique = true, insertable = false, updatable = false)
     private Long orderNumber;
 
     @Column(name = "proposal_id", nullable = false)
