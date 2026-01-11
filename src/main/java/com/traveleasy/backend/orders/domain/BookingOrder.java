@@ -1,6 +1,8 @@
 package com.traveleasy.backend.orders.domain;
 
 import jakarta.persistence.*;
+
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
