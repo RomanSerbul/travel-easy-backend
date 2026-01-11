@@ -64,13 +64,15 @@ public class JpaBookingService implements BookingService {
         variables.put("guests", saved.getGuests());
         variables.put("addOns", saved.getAddOns() != null ? String.join(", ", saved.getAddOns()) : "");
         variables.put("notes", saved.getNotes() != null ? saved.getNotes() : "");
-        variables.put("subject", "Travel Easy: підтвердження бронювання #" + saved.getId());
+        variables.put("subject", "Travel Easy: підтвердження бронювання #" + saved.getOrderNumber());
+        variables.put("orderId", saved.getOrderNumber());
 
         var payload = new NotificationPayload("booking-confirmation", variables);
         notificationService.sendToAll(payload);
 
         return new BookingOrderResponse(
                 saved.getId(),
+                saved.getOrderNumber(),
                 saved.getStatus().name(),
                 saved.getCreatedAt()
         );

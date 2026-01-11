@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record BookingOrderResponse(
         UUID orderId,
+        Long orderNumber,
         String status,
         Instant createdAt
 ) {

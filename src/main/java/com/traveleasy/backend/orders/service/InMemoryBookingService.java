@@ -30,11 +30,11 @@ public class InMemoryBookingService implements BookingService {
     @Override
     public BookingOrderResponse confirmBooking(BookingOrderRequest request) {
         // TODO replace stub with persistence and notification fan-out
-        var response = new BookingOrderResponse(UUID.randomUUID(), "PENDING_CONFIRMATION", Instant.now());
+        var response = new BookingOrderResponse(UUID.randomUUID(), 1001L, "PENDING_CONFIRMATION", Instant.now());
         var payload = new NotificationPayload(
                 "booking-confirmation",
                 Map.of(
-                        "orderId", response.orderId(),
+                        "orderId", response.orderNumber(),
                         "proposalId", request.proposalId(),
                         "customerName", request.customerName(),
                         "email", request.customerEmail(),

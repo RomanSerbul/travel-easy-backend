@@ -16,6 +16,11 @@ public class BookingOrder {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_order_seq")
+    @SequenceGenerator(name = "booking_order_seq", sequenceName = "booking_order_number_seq", allocationSize = 1)
+    @Column(name = "order_number", nullable = false, unique = true)
+    private Long orderNumber;
+
     @Column(name = "proposal_id", nullable = false)
     private String proposalId;
 
@@ -86,6 +91,10 @@ public class BookingOrder {
 
     public UUID getId() {
         return id;
+    }
+
+    public Long getOrderNumber() {
+        return orderNumber;
     }
 
     public String getProposalId() {
