@@ -3,6 +3,8 @@ package com.traveleasy.backend.admin.service;
 import com.traveleasy.backend.admin.model.OrderDraft;
 import com.traveleasy.backend.admin.model.OrderSummary;
 import com.traveleasy.backend.catalog.repository.TourProposalRepository;
+import com.traveleasy.backend.notifications.model.NotificationPayload;
+import com.traveleasy.backend.notifications.service.NotificationService;
 import com.traveleasy.backend.orders.domain.BookingOrder;
 import com.traveleasy.backend.orders.repository.BookingOrderRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,10 +20,14 @@ public class JpaAdminOrderService implements AdminOrderService {
 
     private final BookingOrderRepository bookingOrderRepository;
     private final TourProposalRepository tourProposalRepository;
+    private final NotificationService notificationService;
 
-    public JpaAdminOrderService(BookingOrderRepository bookingOrderRepository, TourProposalRepository tourProposalRepository) {
+    public JpaAdminOrderService(BookingOrderRepository bookingOrderRepository, 
+                                 TourProposalRepository tourProposalRepository,
+                                 NotificationService notificationService) {
         this.bookingOrderRepository = bookingOrderRepository;
         this.tourProposalRepository = tourProposalRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -46,6 +53,30 @@ public class JpaAdminOrderService implements AdminOrderService {
                 draft.notes()
         );
         var saved = bookingOrderRepository.save(order);
+
+        // Get tour title for email
+        var tourTitle = tourProposalRepository.findBySlug(saved.getProposalId())
+                .map(p -> p.getTitle())
+                .orElse(saved.getProposalId());
+
+        // Send email notifications
+        var variables = new HashMap<String, Object>();
+        variables.put("orderId", saved.getId());
+        variables.put("proposalId", saved.getProposalId());
+        variables.put("tourTitle", tourTitle);
+        variables.put("customerName", saved.getCustomerName());
+        variables.put("email", saved.getCustomerEmail());
+        variables.put("phone", saved.getCustomerPhone() != null ? saved.getCustomerPhone() : "");
+        variables.put("startDate", saved.getStartDate() != null ? saved.getStartDate().toString() : "");
+        variables.put("nights", saved.getNights());
+        variables.put("guests", saved.getGuests());
+        variables.put("addOns", saved.getAddOns() != null ? String.join(", ", saved.getAddOns()) : "");
+        variables.put("notes", saved.getNotes() != null ? saved.getNotes() : "");
+        variables.put("subject", "Travel Easy: підтвердження бронювання #" + saved.getId());
+
+        var payload = new NotificationPayload("booking-confirmation", variables);
+        notificationService.sendToAll(payload);
+
         return toSummary(saved);
     }
 
