@@ -10,6 +10,7 @@ import java.util.List;
 
 public record BookingOrderRequest(
         @NotBlank(message = "proposalId is required") String proposalId,
+        String tourTitle,
         @NotBlank(message = "customerName is required") String customerName,
         @Email(message = "Некоректна email адреса") String customerEmail,
         @NotBlank(message = "customerPhone is required") String customerPhone,

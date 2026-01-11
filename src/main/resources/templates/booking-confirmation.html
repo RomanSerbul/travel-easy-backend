@@ -1,15 +1,105 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Travel Easy підтвердження</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Easy – Підтвердження бронювання</title>
 </head>
-<body style="font-family: Arial, sans-serif; color: #1a1a2e;">
-<h2>Вітаємо, <span th:text="${customerName}">Клієнте</span>!</h2>
-<p>
-    Ваш запит на маршрут <strong th:text="${proposalId}">Маршрут</strong> успішно надіслано.
-</p>
-<p>Ми зв'яжемося з вами протягом 24 годин для уточнення деталей.</p>
-<p style="margin-top: 32px;">Команда Travel Easy</p>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7fa;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f7fa; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #0b1224 0%, #1a2744 100%); padding: 30px 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #5BC5FF; font-size: 28px; font-weight: 700;">Travel Easy</h1>
+                            <p style="margin: 10px 0 0; color: rgba(255,255,255,0.8); font-size: 14px;">Ваша подорож починається тут</p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Main Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <h2 style="margin: 0 0 20px; color: #1a2744; font-size: 24px;">
+                                Вітаємо, <span th:text="${customerName}" style="color: #5BC5FF;">Клієнте</span>! 🎉
+                            </h2>
+                            
+                            <p style="margin: 0 0 25px; color: #4a5568; font-size: 16px; line-height: 1.6;">
+                                Дякуємо за ваше бронювання! Ваш запит успішно прийнято і знаходиться в обробці.
+                            </p>
+                            
+                            <!-- Order Details Card -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, rgba(91,197,255,0.1) 0%, rgba(91,197,255,0.05) 100%); border: 1px solid rgba(91,197,255,0.2); border-radius: 12px; margin-bottom: 25px;">
+                                <tr>
+                                    <td style="padding: 25px;">
+                                        <h3 style="margin: 0 0 15px; color: #1a2744; font-size: 18px;">
+                                            <span style="color: #5BC5FF;">📋</span> Деталі замовлення
+                                        </h3>
+                                        
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="padding: 8px 0; color: #718096; font-size: 14px;">Номер замовлення:</td>
+                                                <td style="padding: 8px 0; color: #1a2744; font-size: 14px; font-weight: 600; text-align: right;" th:text="'#' + ${orderId}">#12345</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px 0; color: #718096; font-size: 14px; border-top: 1px solid rgba(0,0,0,0.05);">Тур:</td>
+                                                <td style="padding: 8px 0; color: #1a2744; font-size: 14px; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,0,0,0.05);" th:text="${tourTitle}">Назва туру</td>
+                                            </tr>
+                                            <tr th:if="${startDate}">
+                                                <td style="padding: 8px 0; color: #718096; font-size: 14px; border-top: 1px solid rgba(0,0,0,0.05);">Дата початку:</td>
+                                                <td style="padding: 8px 0; color: #1a2744; font-size: 14px; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,0,0,0.05);" th:text="${startDate}">01.01.2026</td>
+                                            </tr>
+                                            <tr th:if="${nights}">
+                                                <td style="padding: 8px 0; color: #718096; font-size: 14px; border-top: 1px solid rgba(0,0,0,0.05);">Тривалість:</td>
+                                                <td style="padding: 8px 0; color: #1a2744; font-size: 14px; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,0,0,0.05);" th:text="${nights} + ' днів'">3 днів</td>
+                                            </tr>
+                                            <tr th:if="${guests}">
+                                                <td style="padding: 8px 0; color: #718096; font-size: 14px; border-top: 1px solid rgba(0,0,0,0.05);">Кількість гостей:</td>
+                                                <td style="padding: 8px 0; color: #1a2744; font-size: 14px; font-weight: 600; text-align: right; border-top: 1px solid rgba(0,0,0,0.05);" th:text="${guests} + ' осіб'">2 осіб</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- What's Next -->
+                            <div style="background-color: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 25px;">
+                                <h3 style="margin: 0 0 15px; color: #1a2744; font-size: 16px;">
+                                    <span style="color: #5BC5FF;">⏰</span> Що далі?
+                                </h3>
+                                <ol style="margin: 0; padding-left: 20px; color: #4a5568; font-size: 14px; line-height: 1.8;">
+                                    <li>Наш менеджер зв'яжеться з вами протягом 24 годин</li>
+                                    <li>Уточнимо всі деталі та підтвердимо дати</li>
+                                    <li>Надішлемо інструкції щодо оплати</li>
+                                    <li>Готуйтеся до незабутньої подорожі! 🏔️</li>
+                                </ol>
+                            </div>
+                            
+                            <!-- Contact Info -->
+                            <p style="margin: 0; color: #718096; font-size: 14px; line-height: 1.6;">
+                                Маєте питання? Зв'яжіться з нами:<br>
+                                📧 <a href="mailto:romanserbul@gmail.com" style="color: #5BC5FF; text-decoration: none;">romanserbul@gmail.com</a><br>
+                                📱 <a href="tel:+380000000000" style="color: #5BC5FF; text-decoration: none;">+38 (000) 000-00-00</a>
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8fafc; padding: 25px 40px; text-align: center; border-top: 1px solid #e2e8f0;">
+                            <p style="margin: 0 0 10px; color: #718096; font-size: 14px;">
+                                З найкращими побажаннями,<br>
+                                <strong style="color: #1a2744;">Команда Travel Easy</strong>
+                            </p>
+                            <p style="margin: 0; color: #a0aec0; font-size: 12px;">
+                                © 2026 Travel Easy. Всі права захищені.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

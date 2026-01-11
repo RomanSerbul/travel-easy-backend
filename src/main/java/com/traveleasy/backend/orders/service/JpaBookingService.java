@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -51,15 +52,21 @@ public class JpaBookingService implements BookingService {
 
         var saved = bookingOrderRepository.save(order);
 
-        var payload = new NotificationPayload(
-                "booking-confirmation",
-                Map.of(
-                        "orderId", saved.getId(),
-                        "proposalId", saved.getProposalId(),
-                        "customerName", saved.getCustomerName(),
-                        "email", saved.getCustomerEmail(),
-                        "subject", "Travel Easy: підтвердження запиту"
-                ));
+        var variables = new HashMap<String, Object>();
+        variables.put("orderId", saved.getId());
+        variables.put("proposalId", saved.getProposalId());
+        variables.put("tourTitle", request.tourTitle() != null ? request.tourTitle() : saved.getProposalId());
+        variables.put("customerName", saved.getCustomerName());
+        variables.put("email", saved.getCustomerEmail());
+        variables.put("phone", saved.getCustomerPhone() != null ? saved.getCustomerPhone() : "");
+        variables.put("startDate", saved.getStartDate() != null ? saved.getStartDate() : "");
+        variables.put("nights", saved.getNights());
+        variables.put("guests", saved.getGuests());
+        variables.put("addOns", saved.getAddOns() != null ? String.join(", ", saved.getAddOns()) : "");
+        variables.put("notes", saved.getNotes() != null ? saved.getNotes() : "");
+        variables.put("subject", "Travel Easy: підтвердження бронювання #" + saved.getId());
+
+        var payload = new NotificationPayload("booking-confirmation", variables);
         notificationService.sendToAll(payload);
 
         return new BookingOrderResponse(
