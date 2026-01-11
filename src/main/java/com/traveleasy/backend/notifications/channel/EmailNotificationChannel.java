@@ -47,6 +47,12 @@ public class EmailNotificationChannel implements NotificationChannel {
     @Override
     @Async
     public void send(NotificationPayload payload) {
+        log.info("=== Email Configuration ===");
+        log.info("From Email: {}", fromEmail);
+        log.info("Manager Email: {}", managerEmail);
+        log.info("Verified Domain: {}", hasVerifiedDomain);
+        log.info("=========================");
+        
         // Send confirmation to customer
         sendCustomerEmail(payload);
 
@@ -59,6 +65,8 @@ public class EmailNotificationChannel implements NotificationChannel {
     private void sendCustomerEmail(NotificationPayload payload) {
         try {
             String toEmail = (String) payload.variables().getOrDefault("email", "test@example.com");
+            
+            log.info("Attempting to send customer email FROM: '{}' TO: '{}'", fromEmail, toEmail);
             
             // Without verified domain, Resend only allows sending to owner's email
             if (!hasVerifiedDomain && !toEmail.equalsIgnoreCase(managerEmail)) {
@@ -74,21 +82,23 @@ public class EmailNotificationChannel implements NotificationChannel {
             String htmlContent = templateEngine.process(payload.template(), context);
 
             CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from("Travel Easy <onboarding@resend.dev>")
+                    .from(fromEmail)
                     .to(toEmail)
                     .subject(subject)
                     .html(htmlContent)
                     .build();
 
             resend.emails().send(params);
-            log.info("Customer confirmation email sent to {} via Resend", toEmail);
+            log.info("✅ Customer confirmation email sent successfully to {} via Resend", toEmail);
         } catch (ResendException ex) {
-            log.warn("Failed to send customer email via Resend: {}", ex.getMessage());
+            log.error("❌ Failed to send customer email via Resend: {}", ex.getMessage(), ex);
         }
     }
 
     private void sendManagerEmail(NotificationPayload payload) {
         try {
+            log.info("Attempting to send manager email FROM: '{}' TO: '{}'", fromEmail, managerEmail);
+            
             var vars = new HashMap<>(payload.variables());
             vars.put("createdAt", LocalDateTime.now());
             vars.put("customerEmail", payload.variables().get("email"));
@@ -99,16 +109,16 @@ public class EmailNotificationChannel implements NotificationChannel {
             String htmlContent = templateEngine.process("manager-notification", context);
 
             CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from("Travel Easy <onboarding@resend.dev>")
+                    .from(fromEmail)
                     .to(managerEmail)
                     .subject("🔔 Нове замовлення #" + payload.variables().getOrDefault("orderId", "N/A"))
                     .html(htmlContent)
                     .build();
 
             resend.emails().send(params);
-            log.info("Manager notification email sent to {} via Resend", managerEmail);
+            log.info("✅ Manager notification email sent successfully to {} via Resend", managerEmail);
         } catch (ResendException ex) {
-            log.warn("Failed to send manager email via Resend: {}", ex.getMessage());
+            log.error("❌ Failed to send manager email via Resend: {}", ex.getMessage(), ex);
         }
     }
 }
