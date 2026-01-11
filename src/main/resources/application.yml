@@ -32,10 +32,6 @@ spring:
     enabled: true
     baseline-on-migrate: true
     validate-on-migrate: false
-  # SMTP disabled - using Resend API instead
-  # mail:
-  #   host: smtp.gmail.com
-  #   port: 465
   cache:
     type: simple
   data:
@@ -57,19 +53,20 @@ server:
 
 logging:
   level:
-    root: DEBUG
-    org.springframework.web: DEBUG
+    root: INFO
+    org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.data: DEBUG
+    com.traveleasy: DEBUG
 
 app:
-  url: ${APP_URL:http://localhost:4200}
+  url: ${APP_URL:https://easy-travel.com.ua}
   admin:
     username: ${APP_ADMIN_USERNAME:admin}
     password: ${APP_ADMIN_PASSWORD:admin123}
   cors:
-    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:4200}
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:https://easy-travel.com.ua,https://www.easy-travel.com.ua,http://localhost:4200}
   notifications:
     telegram:
       bot-token: ${TELEGRAM_BOT_TOKEN:}
@@ -77,8 +74,8 @@ app:
     viber:
       auth-token: ${VIBER_AUTH_TOKEN:}
     email:
-      verified-domain: ${MAIL_VERIFIED_DOMAIN:false}
-      from: ${MAIL_FROM:romanserbul@gmail.com}
+      verified-domain: ${MAIL_VERIFIED_DOMAIN:true}
+      from: ${MAIL_FROM:noreply@api.easy-travel.com.ua}
       manager: ${MAIL_MANAGER:romanserbul@gmail.com}
       resend-api-key: ${RESEND_API_KEY:re_SDXYH4Vw_5AJycLH9TmsP5LR5wFgmmUEP}
   storage:
