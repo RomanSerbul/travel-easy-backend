@@ -48,7 +48,7 @@ public class SitemapController {
             String lastMod = tour.getUpdatedAt() != null 
                 ? tour.getUpdatedAt().atZone(ZoneId.systemDefault()).toLocalDate().format(DATE_FORMAT) 
                 : today;
-            addUrl(xml, "/tour/" + tour.getId(), lastMod, "weekly", "0.8");
+            addUrl(xml, "/tour/" + tour.getSlug(), lastMod, "weekly", "0.8");
         }
 
         xml.append("</urlset>");
