@@ -7,7 +7,7 @@ spring:
       max-request-size: 50MB
   datasource:
     # Railway PostgreSQL - використовуємо внутрішню мережу
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}?sslmode=disable&connectTimeout=10&socketTimeout=30
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:travel_easy}
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
     hikari:
