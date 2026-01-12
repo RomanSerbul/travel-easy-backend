@@ -35,7 +35,7 @@ public class SitemapController {
         String today = LocalDate.now().format(DATE_FORMAT);
 
         // Static pages
-        addUrl(xml, "/", today, "weekly", "1.0");
+        addUrl(xml, "/home", today, "weekly", "1.0");
         addUrl(xml, "/catalog", today, "daily", "0.9");
         addUrl(xml, "/about", today, "monthly", "0.7");
         addUrl(xml, "/contact", today, "monthly", "0.7");
