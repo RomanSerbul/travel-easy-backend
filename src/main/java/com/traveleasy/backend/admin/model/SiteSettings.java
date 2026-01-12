@@ -45,7 +45,7 @@ public class SiteSettings {
     @Column(name = "address_country")
     private String addressCountry;
 
-    @Column(name = "address_map_url")
+    @Column(name = "address_map_url", columnDefinition = "TEXT")
     private String addressMapUrl;
 
     // Телефони
