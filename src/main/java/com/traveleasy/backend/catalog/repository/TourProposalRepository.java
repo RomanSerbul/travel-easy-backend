@@ -18,6 +18,6 @@ public interface TourProposalRepository extends JpaRepository<TourProposal, Long
     @Query("select distinct p from TourProposal p left join fetch p.images")
     List<TourProposal> findAllWithImages();
 
-    @Query("select distinct p from TourProposal p left join fetch p.images left join fetch p.videos")
-    List<TourProposal> findAllWithMedia();
+    @Query("select distinct p from TourProposal p left join fetch p.videos")
+    List<TourProposal> findAllWithVideos();
 }

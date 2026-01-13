@@ -25,17 +25,15 @@ public class MediaController {
     @GetMapping
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse<List<MediaItemDto>>> listMedia() {
-        // Aggregate from tour proposals (images and videos)
-        var proposals = tourProposalRepository.findAllWithMedia();
         var items = new java.util.ArrayList<MediaItemDto>();
         
-        // Add images
-        proposals.forEach(p -> 
+        // Fetch images (separate query to avoid MultipleBagFetchException)
+        tourProposalRepository.findAllWithImages().forEach(p -> 
             p.getImages().forEach(url -> items.add(toDto(url, p.getSlug(), p.getTitle())))
         );
         
-        // Add videos
-        proposals.forEach(p -> 
+        // Fetch videos (separate query)
+        tourProposalRepository.findAllWithVideos().forEach(p -> 
             p.getVideos().forEach(url -> items.add(toDto(url, p.getSlug(), p.getTitle())))
         );
         
