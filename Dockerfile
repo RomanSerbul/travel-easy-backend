@@ -9,5 +9,8 @@ RUN mvn -B package -DskipTests
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=builder /workspace/target/travel-easy-backend-0.0.1-SNAPSHOT.jar app.jar
-ENV JAVA_OPTS=""
+
+# Memory optimization for Railway (512MB-1GB plan)
+ENV JAVA_OPTS="-Xms128m -Xmx384m -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -Xss256k -XX:MaxMetaspaceSize=128m -XX:+ExitOnOutOfMemoryError"
+
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

@@ -11,8 +11,8 @@ spring:
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
     hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
+      maximum-pool-size: ${HIKARI_MAX_POOL:5}
+      minimum-idle: 1
       connection-timeout: 20000
       idle-timeout: 300000
       max-lifetime: 900000
@@ -55,10 +55,10 @@ logging:
   level:
     root: INFO
     org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.springframework.data: DEBUG
-    com.traveleasy: DEBUG
+    org.hibernate.SQL: ${LOG_HIBERNATE_SQL:INFO}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_HIBERNATE_BINDER:INFO}
+    org.springframework.data: INFO
+    com.traveleasy: ${LOG_APP_LEVEL:INFO}
 
 app:
   url: ${APP_URL:https://easy-travel.com.ua}
