@@ -51,13 +51,14 @@ public class EmailNotificationChannel implements NotificationChannel {
         log.info("From Email: {}", fromEmail);
         log.info("Manager Email: {}", managerEmail);
         log.info("Verified Domain: {}", hasVerifiedDomain);
+        log.info("Template: {}", payload.template());
         log.info("=========================");
         
-        // Send confirmation to customer
+        // Send email to customer
         sendCustomerEmail(payload);
 
-        // Send notification to manager
-        if (managerEmail != null && !managerEmail.isBlank()) {
+        // Send notification to manager only for new bookings (booking-confirmation template)
+        if ("booking-confirmation".equals(payload.template()) && managerEmail != null && !managerEmail.isBlank()) {
             sendManagerEmail(payload);
         }
     }

@@ -91,6 +91,7 @@ public class JpaAdminOrderService implements AdminOrderService {
         var order = bookingOrderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
 
+        BookingOrder.BookingStatus oldStatus = order.getStatus();
         BookingOrder.BookingStatus newStatus;
         try {
             newStatus = BookingOrder.BookingStatus.valueOf(status);
@@ -100,7 +101,53 @@ public class JpaAdminOrderService implements AdminOrderService {
 
         order.updateStatus(newStatus);
         var saved = bookingOrderRepository.save(order);
+        
+        // Send email notification to customer on status change
+        if (oldStatus != newStatus) {
+            sendStatusChangeNotification(saved, newStatus);
+        }
+        
         return toSummary(saved);
+    }
+
+    private void sendStatusChangeNotification(BookingOrder order, BookingOrder.BookingStatus newStatus) {
+        // Only send emails for CONFIRMED and CANCELLED statuses
+        if (newStatus != BookingOrder.BookingStatus.CONFIRMED && 
+            newStatus != BookingOrder.BookingStatus.CANCELLED) {
+            return;
+        }
+
+        var tourTitle = tourProposalRepository.findBySlug(order.getProposalId())
+                .map(p -> p.getTitle())
+                .orElse(order.getProposalId());
+
+        var variables = new HashMap<String, Object>();
+        variables.put("orderId", order.getId());
+        variables.put("orderNumber", order.getOrderNumber());
+        variables.put("proposalId", order.getProposalId());
+        variables.put("tourTitle", tourTitle);
+        variables.put("customerName", order.getCustomerName());
+        variables.put("email", order.getCustomerEmail());
+        variables.put("phone", order.getCustomerPhone() != null ? order.getCustomerPhone() : "");
+        variables.put("startDate", order.getStartDate() != null ? order.getStartDate().toString() : "");
+        variables.put("nights", order.getNights());
+        variables.put("guests", order.getGuests());
+
+        String template;
+        String subject;
+        
+        if (newStatus == BookingOrder.BookingStatus.CONFIRMED) {
+            template = "order-confirmed";
+            subject = "✅ Travel Easy: Замовлення #" + order.getOrderNumber() + " підтверджено!";
+        } else {
+            template = "order-cancelled";
+            subject = "❌ Travel Easy: Замовлення #" + order.getOrderNumber() + " скасовано";
+        }
+        
+        variables.put("subject", subject);
+
+        var payload = new NotificationPayload(template, variables);
+        notificationService.sendToAll(payload);
     }
 
     private OrderSummary toSummary(BookingOrder order) {

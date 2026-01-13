@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Easy – Замовлення скасовано</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); min-height: 100vh;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); padding: 48px 20px;">
+        <tr>
+            <td align="center">
+                <!-- Decorative top glow -->
+                <div style="width: 120px; height: 4px; background: linear-gradient(90deg, transparent, #f43f5e, #ef4444, transparent); border-radius: 2px; margin-bottom: 32px;"></div>
+                
+                <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(145deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%); border-radius: 24px; overflow: hidden; border: 1px solid rgba(148, 163, 184, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05) inset;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 40px 48px 32px; text-align: center; border-bottom: 1px solid rgba(148, 163, 184, 0.1);">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center">
+                                        <!-- Cancel icon -->
+                                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%); border: 2px solid rgba(244, 63, 94, 0.4); border-radius: 50%; margin: 0 auto 20px;">
+                                            <span style="font-size: 40px; line-height: 76px; display: block;">✕</span>
+                                        </div>
+                                        <h1 style="margin: 0; color: #f8fafc; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Замовлення скасовано</h1>
+                                        <p style="margin: 12px 0 0; color: #94a3b8; font-size: 15px; font-weight: 400;">На жаль, ваше бронювання не може бути виконане</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Main Content -->
+                    <tr>
+                        <td style="padding: 36px 48px 40px;">
+                            <p style="margin: 0 0 8px; color: #94a3b8; font-size: 15px;">Шановний/а,</p>
+                            <h2 style="margin: 0 0 24px; color: #f8fafc; font-size: 24px; font-weight: 600;" th:text="${customerName}">
+                                Клієнте
+                            </h2>
+                            
+                            <p style="margin: 0 0 32px; color: #cbd5e1; font-size: 16px; line-height: 1.7;">
+                                На жаль, ваше замовлення було скасовано. Це могло статися через відсутність вільних місць, 
+                                зміну дат туру або інші обставини. Нам дуже шкода, що цього разу не вдалося організувати вашу подорож.
+                            </p>
+                            
+                            <!-- Order Details Card -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(145deg, rgba(244, 63, 94, 0.08) 0%, rgba(239, 68, 68, 0.04) 100%); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 20px; margin-bottom: 28px; overflow: hidden;">
+                                <tr>
+                                    <td style="padding: 28px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 20px;">
+                                            <tr>
+                                                <td>
+                                                    <span style="color: #f87171; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">✕ Скасоване замовлення</span>
+                                                </td>
+                                                <td align="right">
+                                                    <span th:text="'#' + ${orderNumber}" style="color: #94a3b8; font-size: 16px; font-weight: 700; text-decoration: line-through;">#12345</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="padding: 14px 0; border-top: 1px solid rgba(148, 163, 184, 0.1);">
+                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="color: #64748b; font-size: 14px;">🏔️ Тур</td>
+                                                            <td style="color: #94a3b8; font-size: 15px; font-weight: 600; text-align: right;" th:text="${tourTitle}">Назва туру</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr th:if="${startDate}">
+                                                <td style="padding: 14px 0; border-top: 1px solid rgba(148, 163, 184, 0.1);">
+                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="color: #64748b; font-size: 14px;">📅 Планована дата</td>
+                                                            <td style="color: #94a3b8; font-size: 15px; font-weight: 600; text-align: right;" th:text="${startDate}">01.01.2026</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Alternatives section -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 28px;">
+                                <tr>
+                                    <td style="padding: 24px; background: linear-gradient(145deg, rgba(56, 189, 248, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%); border: 1px solid rgba(56, 189, 248, 0.15); border-radius: 20px;">
+                                        <p style="margin: 0 0 16px; color: #f8fafc; font-size: 16px; font-weight: 600;">💡 Що далі?</p>
+                                        
+                                        <p style="margin: 0 0 20px; color: #cbd5e1; font-size: 14px; line-height: 1.7;">
+                                            Не засмучуйтесь! Ми маємо багато інших чудових маршрутів та дат. 
+                                            Перегляньте наш каталог або зв'яжіться з нами — ми допоможемо підібрати 
+                                            ідеальну альтернативу.
+                                        </p>
+                                        
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td>
+                                                    <a href="https://easy-travel.com.ua/catalog" style="display: inline-block; background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%); color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 14px 28px; border-radius: 12px; box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);">
+                                                        Переглянути тури →
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Contact Card -->
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center" style="padding: 20px; background: rgba(51, 65, 85, 0.3); border-radius: 16px; border: 1px solid rgba(148, 163, 184, 0.1);">
+                                        <p style="margin: 0 0 12px; color: #94a3b8; font-size: 13px;">Маєте питання щодо скасування?</p>
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="padding: 0 12px;">
+                                                    <a href="mailto:romanserbul@gmail.com" style="color: #38bdf8; text-decoration: none; font-size: 14px; font-weight: 500;">📧 Email</a>
+                                                </td>
+                                                <td style="color: rgba(148, 163, 184, 0.3);">|</td>
+                                                <td style="padding: 0 12px;">
+                                                    <a href="tel:+380000000000" style="color: #38bdf8; text-decoration: none; font-size: 14px; font-weight: 500;">📱 Телефон</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 28px 48px; text-align: center; border-top: 1px solid rgba(148, 163, 184, 0.1); background: rgba(15, 23, 42, 0.5);">
+                            <p style="margin: 0 0 8px; color: #64748b; font-size: 13px;">
+                                Сподіваємось побачити вас наступного разу!
+                            </p>
+                            <p style="margin: 0 0 16px; color: #f8fafc; font-size: 15px; font-weight: 600;">
+                                Команда Travel Easy
+                            </p>
+                            <p style="margin: 0; color: #475569; font-size: 11px;">
+                                © 2026 Travel Easy · Всі права захищені
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Decorative bottom glow -->
+                <div style="width: 80px; height: 4px; background: linear-gradient(90deg, transparent, #94a3b8, #64748b, transparent); border-radius: 2px; margin-top: 32px;"></div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
