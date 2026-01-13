@@ -14,4 +14,6 @@ public interface AdminOrderService {
     OrderSummary updateOrderStatus(UUID orderId, String status);
 
     void deleteOrder(UUID orderId);
+
+    int bulkDeleteOrders(List<UUID> orderIds);
 }

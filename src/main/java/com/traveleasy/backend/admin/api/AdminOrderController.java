@@ -46,4 +46,10 @@ public class AdminOrderController {
         adminOrderService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/bulk")
+    public ResponseEntity<ApiResponse<Integer>> bulkDeleteOrders(@RequestBody List<UUID> orderIds) {
+        int deleted = adminOrderService.bulkDeleteOrders(orderIds);
+        return ResponseEntity.ok(ApiResponse.of(deleted));
+    }
 }

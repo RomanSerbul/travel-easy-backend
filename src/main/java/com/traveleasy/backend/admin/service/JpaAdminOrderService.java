@@ -139,4 +139,25 @@ public class JpaAdminOrderService implements AdminOrderService {
         
         bookingOrderRepository.delete(order);
     }
+
+    @Override
+    @Transactional
+    public int bulkDeleteOrders(List<UUID> orderIds) {
+        if (orderIds == null || orderIds.isEmpty()) {
+            return 0;
+        }
+        int deleted = 0;
+        for (UUID orderId : orderIds) {
+            var orderOpt = bookingOrderRepository.findById(orderId);
+            if (orderOpt.isPresent()) {
+                var order = orderOpt.get();
+                // Only delete archived orders
+                if (order.getStatus() == BookingOrder.BookingStatus.ARCHIVED) {
+                    bookingOrderRepository.delete(order);
+                    deleted++;
+                }
+            }
+        }
+        return deleted;
+    }
 }
