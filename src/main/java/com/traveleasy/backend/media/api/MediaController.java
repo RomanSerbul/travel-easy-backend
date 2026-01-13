@@ -25,10 +25,20 @@ public class MediaController {
     @GetMapping
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse<List<MediaItemDto>>> listMedia() {
-        // Aggregate from tour proposals (images)
-        var items = tourProposalRepository.findAllWithImages().stream()
-                .flatMap(p -> p.getImages().stream().map(url -> toDto(url, p.getSlug(), p.getTitle())))
-                .toList();
+        // Aggregate from tour proposals (images and videos)
+        var proposals = tourProposalRepository.findAllWithMedia();
+        var items = new java.util.ArrayList<MediaItemDto>();
+        
+        // Add images
+        proposals.forEach(p -> 
+            p.getImages().forEach(url -> items.add(toDto(url, p.getSlug(), p.getTitle())))
+        );
+        
+        // Add videos
+        proposals.forEach(p -> 
+            p.getVideos().forEach(url -> items.add(toDto(url, p.getSlug(), p.getTitle())))
+        );
+        
         return ResponseEntity.ok(ApiResponse.of(items));
     }
 
