@@ -14,6 +14,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class JpaAdminOrderService implements AdminOrderService {
@@ -120,5 +121,22 @@ public class JpaAdminOrderService implements AdminOrderService {
                 order.getStatus().name(),
                 order.getCreatedAt().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)
         );
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrder(UUID orderId) {
+        if (orderId == null) {
+            throw new IllegalArgumentException("Order ID cannot be null");
+        }
+        var order = bookingOrderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found: " + orderId));
+        
+        // Only allow deletion of archived orders
+        if (order.getStatus() != BookingOrder.BookingStatus.ARCHIVED) {
+            throw new IllegalStateException("Only archived orders can be deleted. Current status: " + order.getStatus());
+        }
+        
+        bookingOrderRepository.delete(order);
     }
 }

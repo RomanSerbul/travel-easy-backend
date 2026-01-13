@@ -40,4 +40,10 @@ public class AdminOrderController {
                 adminOrderService.updateOrderStatus(orderId, statusUpdate.status())
         ));
     }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable UUID orderId) {
+        adminOrderService.deleteOrder(orderId);
+        return ResponseEntity.noContent().build();
+    }
 }

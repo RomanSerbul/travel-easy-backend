@@ -12,4 +12,6 @@ public interface AdminOrderService {
     OrderSummary createOrder(OrderDraft draft);
 
     OrderSummary updateOrderStatus(UUID orderId, String status);
+
+    void deleteOrder(UUID orderId);
 }
