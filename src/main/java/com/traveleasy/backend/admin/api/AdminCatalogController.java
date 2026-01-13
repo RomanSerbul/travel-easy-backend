@@ -99,4 +99,31 @@ public class AdminCatalogController {
                 .reorderImages(slug, images);
         return ResponseEntity.ok(ApiResponse.of(null));
     }
+
+    // Videos management
+    @PostMapping(path = "/{slug}/videos", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<String>> uploadVideo(@PathVariable String slug,
+                                                           @RequestPart("file") MultipartFile file) throws Exception {
+        var url = ((com.traveleasy.backend.admin.service.JpaAdminCatalogService) adminCatalogService)
+                .uploadVideo(slug, file);
+        return ResponseEntity.ok(ApiResponse.of(url));
+    }
+
+    @DeleteMapping(path = "/{slug}/videos")
+    public ResponseEntity<ApiResponse<Void>> deleteVideo(@PathVariable String slug,
+                                                         @RequestBody java.util.Map<String, String> body) throws Exception {
+        var videoUrl = body.get("videoUrl");
+        ((com.traveleasy.backend.admin.service.JpaAdminCatalogService) adminCatalogService)
+                .deleteVideo(slug, videoUrl);
+        return ResponseEntity.ok(ApiResponse.of(null));
+    }
+
+    @PutMapping(path = "/{slug}/videos/reorder")
+    public ResponseEntity<ApiResponse<Void>> reorderVideos(@PathVariable String slug,
+                                                           @RequestBody java.util.Map<String, java.util.List<String>> body) {
+        var videos = body.getOrDefault("videos", java.util.List.of());
+        ((com.traveleasy.backend.admin.service.JpaAdminCatalogService) adminCatalogService)
+                .reorderVideos(slug, videos);
+        return ResponseEntity.ok(ApiResponse.of(null));
+    }
 }

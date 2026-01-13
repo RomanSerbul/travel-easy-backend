@@ -49,6 +49,11 @@ public class TourProposal {
     @Column(name = "image_url")
     private List<String> images = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "tour_proposal_videos", joinColumns = @JoinColumn(name = "tour_proposal_id"))
+    @Column(name = "video_url")
+    private List<String> videos = new ArrayList<>();
+
     @Column(name = "hot", nullable = false)
     private boolean hot = false;
 
@@ -287,6 +292,14 @@ public class TourProposal {
 
     public void setImages(List<String> images) {
         this.images = images != null ? new ArrayList<>(images) : new ArrayList<>();
+    }
+
+    public List<String> getVideos() {
+        return new ArrayList<>(videos);
+    }
+
+    public void setVideos(List<String> videos) {
+        this.videos = videos != null ? new ArrayList<>(videos) : new ArrayList<>();
     }
 
     public void setDescription(String description) {

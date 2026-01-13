@@ -25,6 +25,7 @@ public record ProposalDraft(
         String exclusions,
         String policy,
         List<String> images,
+        List<String> videos,
         Integer minGuests,
         Integer maxGuests,
         String programDetails,

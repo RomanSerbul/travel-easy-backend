@@ -22,6 +22,7 @@ public record TourProposalDetail(
         LocalDate departureDate,
         LocalDate returnDate,
         List<String> images,
+        List<String> videos,
         int minGuests,
         int maxGuests,
         String programDetails,

@@ -119,6 +119,7 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 proposal.getDepartureDate(),
                 proposal.getReturnDate(),
                 proposal.getImages() != null ? proposal.getImages() : java.util.List.of(),
+                proposal.getVideos() != null ? proposal.getVideos() : java.util.List.of(),
                 proposal.getMinGuests(),
                 proposal.getMaxGuests(),
                 proposal.getProgramDetails(),
@@ -169,6 +170,9 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         }
         if (draft.images() != null) {
             proposal.setImages(draft.images());
+        }
+        if (draft.videos() != null) {
+            proposal.setVideos(draft.videos());
         }
         if (draft.minGuests() != null) {
             proposal.setMinGuests(draft.minGuests());
@@ -271,6 +275,42 @@ public class JpaAdminCatalogService implements AdminCatalogService {
         var proposal = tourProposalRepository.findBySlug(slug)
                 .orElseThrow(() -> new DomainException("Proposal not found"));
         proposal.setImages(images != null ? images : java.util.List.of());
+        tourProposalRepository.save(proposal);
+    }
+
+    // --- Videos management ---
+    @Transactional
+    @CacheEvict(value = "highlightedProposals", allEntries = true)
+    public String uploadVideo(String slug, org.springframework.web.multipart.MultipartFile file) throws Exception {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        var url = storageService.upload(file, "videos/" + slug);
+        var videos = proposal.getVideos();
+        videos.add(url);
+        proposal.setVideos(videos);
+        tourProposalRepository.save(proposal);
+        return url;
+    }
+
+    @Transactional
+    @CacheEvict(value = "highlightedProposals", allEntries = true)
+    public void deleteVideo(String slug, String videoUrl) throws Exception {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        var videos = proposal.getVideos();
+        if (videos.remove(videoUrl)) {
+            proposal.setVideos(videos);
+            tourProposalRepository.save(proposal);
+            try { storageService.deleteByUrl(videoUrl); } catch (Exception ignore) {}
+        }
+    }
+
+    @Transactional
+    @CacheEvict(value = "highlightedProposals", allEntries = true)
+    public void reorderVideos(String slug, java.util.List<String> videos) {
+        var proposal = tourProposalRepository.findBySlug(slug)
+                .orElseThrow(() -> new DomainException("Proposal not found"));
+        proposal.setVideos(videos != null ? videos : java.util.List.of());
         tourProposalRepository.save(proposal);
     }
 

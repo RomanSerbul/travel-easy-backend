@@ -112,6 +112,7 @@ public class InMemoryCatalogService implements CatalogService {
                                 summary.departureDate(),
                                 summary.returnDate(),
                                 java.util.List.of(),
+                                java.util.List.of(),
                                 summary.minGuests(),
                                 summary.maxGuests(),
                                 "",
