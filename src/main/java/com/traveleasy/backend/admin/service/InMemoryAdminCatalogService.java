@@ -39,7 +39,8 @@ public class InMemoryAdminCatalogService implements AdminCatalogService {
             draft.departureDate(),
             draft.returnDate(),
             draft.minGuests() != null ? draft.minGuests() : 1,
-            draft.maxGuests() != null ? draft.maxGuests() : 20
+            draft.maxGuests() != null ? draft.maxGuests() : 20,
+            "\u20b4"
         );
         return catalogService.addProposal(summary);
     }

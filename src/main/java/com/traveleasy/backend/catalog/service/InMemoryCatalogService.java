@@ -30,7 +30,8 @@ public class InMemoryCatalogService implements CatalogService {
                     LocalDate.of(2026, 3, 15),
                     LocalDate.of(2026, 3, 19),
                     1,
-                    20
+                    20,
+                    "\u20b4"
             ),
             new TourProposalSummary(
                     "copenhagen-hygge",
@@ -49,7 +50,8 @@ public class InMemoryCatalogService implements CatalogService {
                     LocalDate.of(2026, 4, 1),
                     LocalDate.of(2026, 4, 6),
                     1,
-                    15
+                    15,
+                    "\u20b4"
             ),
             new TourProposalSummary(
                     "istanbul-senses",
@@ -68,7 +70,8 @@ public class InMemoryCatalogService implements CatalogService {
                     LocalDate.of(2026, 5, 10),
                     LocalDate.of(2026, 5, 16),
                     1,
-                    25
+                    25,
+                    "\u20b4"
             )
     ));
 
@@ -121,7 +124,8 @@ public class InMemoryCatalogService implements CatalogService {
                                 java.util.List.of(),
                                 java.util.List.of(),
                                 java.util.List.of(),
-                                ""
+                                "",
+                                "\u20b4"
                 );
         }
 }
