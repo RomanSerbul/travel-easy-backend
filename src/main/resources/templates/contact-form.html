@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Повідомлення з сайту – Travel Easy</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); min-height: 100vh;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); padding: 48px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(145deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%); border-radius: 24px; overflow: hidden; border: 1px solid rgba(148, 163, 184, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05) inset;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 0;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="height: 4px; background: linear-gradient(90deg, #38bdf8, #8b5cf6, #a78bfa);"></td>
+                                </tr>
+                            </table>
+                            <table width="100%" cellpadding="0" cellspacing="0" style="padding: 28px 48px;">
+                                <tr>
+                                    <td>
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="width: 48px; height: 48px; background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%); border-radius: 12px; text-align: center; vertical-align: middle; box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);">
+                                                    <span style="font-size: 22px; line-height: 48px;">📩</span>
+                                                </td>
+                                                <td style="padding-left: 16px;">
+                                                    <p style="margin: 0; color: #f8fafc; font-size: 20px; font-weight: 700;">Повідомлення з сайту</p>
+                                                    <p style="margin: 4px 0 0; color: #94a3b8; font-size: 13px;">Форма зворотного зв'язку</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr>
+                        <td style="padding: 0 48px;">
+                            <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.2), transparent);"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Sender Info -->
+                    <tr>
+                        <td style="padding: 32px 48px 0;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background: linear-gradient(145deg, rgba(56, 189, 248, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 20px;">
+                                <tr>
+                                    <td style="padding: 24px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 16px;">
+                                            <tr>
+                                                <td>
+                                                    <span style="color: #38bdf8; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">👤 Відправник</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Name -->
+                                        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 12px;">
+                                            <tr>
+                                                <td style="padding: 12px 16px; background: rgba(15, 23, 42, 0.4); border-radius: 12px;">
+                                                    <p style="margin: 0 0 2px; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Ім'я</p>
+                                                    <p th:text="${name}" style="margin: 0; color: #f8fafc; font-size: 16px; font-weight: 600;">Ім'я</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Email & Phone -->
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="width: 48%; padding: 12px 16px; background: rgba(15, 23, 42, 0.4); border-radius: 12px;">
+                                                    <p style="margin: 0 0 2px; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Email</p>
+                                                    <a th:href="'mailto:' + ${email}" th:text="${email}" style="margin: 0; color: #38bdf8; font-size: 14px; font-weight: 600; text-decoration: none;">email@example.com</a>
+                                                </td>
+                                                <td style="width: 4%;"></td>
+                                                <td style="width: 48%; padding: 12px 16px; background: rgba(15, 23, 42, 0.4); border-radius: 12px;">
+                                                    <p style="margin: 0 0 2px; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Телефон</p>
+                                                    <p th:text="${phone != null and phone != ''} ? ${phone} : 'Не вказано'" style="margin: 0; color: #f8fafc; font-size: 14px; font-weight: 600;">Не вказано</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Subject -->
+                    <tr>
+                        <td style="padding: 16px 48px 0;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 16px;">
+                                <tr>
+                                    <td style="padding: 20px 24px;">
+                                        <p style="margin: 0 0 4px; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">📋 Тема</p>
+                                        <p th:text="${subject}" style="margin: 0; color: #e2e8f0; font-size: 16px; font-weight: 600;">Тема повідомлення</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Message -->
+                    <tr>
+                        <td style="padding: 16px 48px 32px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 16px;">
+                                <tr>
+                                    <td style="padding: 20px 24px;">
+                                        <p style="margin: 0 0 12px; color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">💬 Повідомлення</p>
+                                        <p th:text="${message}" style="margin: 0; color: #e2e8f0; font-size: 15px; line-height: 1.7; white-space: pre-wrap;">Текст повідомлення</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Reply Button -->
+                    <tr>
+                        <td style="padding: 0 48px 32px;" align="center">
+                            <a th:href="'mailto:' + ${email}" style="display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%); color: #ffffff; font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);">
+                                Відповісти
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding: 0 48px;">
+                            <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.15), transparent);"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 24px 48px 28px;" align="center">
+                            <p style="margin: 0; color: #475569; font-size: 12px;">
+                                Travel Easy · Форма зворотного зв'язку
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -36,7 +36,8 @@ public class TelegramNotificationChannel implements NotificationChannel {
             log.debug("Telegram credentials not configured, skipping send");
             return;
         }
-        var text = (String) payload.variables().getOrDefault("message", "Travel Easy: нове бронювання");
+        var text = (String) payload.variables().getOrDefault("telegramMessage",
+                (String) payload.variables().getOrDefault("message", "Travel Easy: нове бронювання"));
         webClient.post()
                 .uri("/bot" + botToken + "/sendMessage")
                 .contentType(MediaType.APPLICATION_JSON)

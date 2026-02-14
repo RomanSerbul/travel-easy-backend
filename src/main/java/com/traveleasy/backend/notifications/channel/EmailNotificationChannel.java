@@ -54,6 +54,14 @@ public class EmailNotificationChannel implements NotificationChannel {
         log.info("Template: {}", payload.template());
         log.info("=========================");
         
+        // Форма зворотного зв'язку — надсилаємо лише менеджеру
+        if ("contact-form".equals(payload.template())) {
+            if (managerEmail != null && !managerEmail.isBlank()) {
+                sendContactFormToManager(payload);
+            }
+            return;
+        }
+
         // Send email to customer
         sendCustomerEmail(payload);
 
@@ -93,6 +101,31 @@ public class EmailNotificationChannel implements NotificationChannel {
             log.info("✅ Customer confirmation email sent successfully to {} via Resend", toEmail);
         } catch (ResendException ex) {
             log.error("❌ Failed to send customer email via Resend: {}", ex.getMessage(), ex);
+        }
+    }
+
+    private void sendContactFormToManager(NotificationPayload payload) {
+        try {
+            log.info("Sending contact form email to manager: {}", managerEmail);
+
+            var context = new Context();
+            context.setVariables(payload.variables());
+            String htmlContent = templateEngine.process("contact-form", context);
+
+            String subject = "📩 " + payload.variables().getOrDefault("subject", "Повідомлення з сайту")
+                    + " — " + payload.variables().getOrDefault("name", "");
+
+            CreateEmailOptions params = CreateEmailOptions.builder()
+                    .from(fromEmail)
+                    .to(managerEmail)
+                    .subject(subject)
+                    .html(htmlContent)
+                    .build();
+
+            resend.emails().send(params);
+            log.info("✅ Contact form email sent successfully to {}", managerEmail);
+        } catch (ResendException ex) {
+            log.error("❌ Failed to send contact form email: {}", ex.getMessage(), ex);
         }
     }
 

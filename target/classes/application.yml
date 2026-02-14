@@ -33,7 +33,7 @@ spring:
     baseline-on-migrate: true
     validate-on-migrate: false
   cache:
-    type: simple
+    type: redis
   data:
     redis:
       url: ${REDIS_URL:redis://localhost:6379}
