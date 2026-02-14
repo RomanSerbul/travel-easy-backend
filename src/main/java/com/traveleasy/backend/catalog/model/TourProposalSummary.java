@@ -24,6 +24,7 @@ public record TourProposalSummary(
         LocalDate departureDate,
         LocalDate returnDate,
         int minGuests,
-        int maxGuests
+        int maxGuests,
+        String currency
 ) implements Serializable {
 }

@@ -32,6 +32,7 @@ public record TourProposalDetail(
         List<String> attractions,
         List<String> activities,
         List<String> highlights,
-        String departureLocations
+        String departureLocations,
+        String currency
 ) implements Serializable {
 }

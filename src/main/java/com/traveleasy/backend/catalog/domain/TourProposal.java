@@ -104,6 +104,9 @@ public class TourProposal {
     @Column(name = "departure_locations", columnDefinition = "TEXT")
     private String departureLocations = "";
 
+    @Column(name = "currency", length = 10)
+    private String currency = "₴";
+
     @Column(name = "min_guests")
     private int minGuests = 1;
 
@@ -388,5 +391,13 @@ public class TourProposal {
 
     public void setMaxGuests(int maxGuests) {
         this.maxGuests = maxGuests;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

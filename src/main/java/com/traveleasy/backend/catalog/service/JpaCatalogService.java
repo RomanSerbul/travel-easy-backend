@@ -75,7 +75,8 @@ public class JpaCatalogService implements CatalogService {
                     proposal.getAttractions() != null ? proposal.getAttractions() : java.util.List.of(),
                     proposal.getActivities() != null ? proposal.getActivities() : java.util.List.of(),
                     proposal.getHighlights() != null ? proposal.getHighlights() : java.util.List.of(),
-                    proposal.getDepartureLocations()
+                    proposal.getDepartureLocations(),
+                    proposal.getCurrency() != null ? proposal.getCurrency() : "₴"
             );
         }
 
@@ -131,7 +132,8 @@ public class JpaCatalogService implements CatalogService {
                 proposal.getDepartureDate(),
                 proposal.getReturnDate(),
                 proposal.getMinGuests(),
-                proposal.getMaxGuests()
+                proposal.getMaxGuests(),
+                proposal.getCurrency() != null ? proposal.getCurrency() : "₴"
         );
     }
 

@@ -128,7 +128,8 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 proposal.getAttractions() != null ? proposal.getAttractions() : java.util.List.of(),
                 proposal.getActivities() != null ? proposal.getActivities() : java.util.List.of(),
                 proposal.getHighlights() != null ? proposal.getHighlights() : java.util.List.of(),
-                proposal.getDepartureLocations()
+                proposal.getDepartureLocations(),
+                proposal.getCurrency() != null ? proposal.getCurrency() : "₴"
         );
     }
 
@@ -352,7 +353,8 @@ public class JpaAdminCatalogService implements AdminCatalogService {
                 proposal.getDepartureDate(),
                 proposal.getReturnDate(),
                 proposal.getMinGuests(),
-                proposal.getMaxGuests()
+                proposal.getMaxGuests(),
+                proposal.getCurrency() != null ? proposal.getCurrency() : "₴"
         );
     }
 
