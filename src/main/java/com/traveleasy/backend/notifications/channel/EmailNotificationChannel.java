@@ -152,7 +152,7 @@ public class EmailNotificationChannel implements NotificationChannel {
             String htmlContent = templateEngine.process("manager-notification", context);
 
             String customerEmail = (String) payload.variables().getOrDefault("email", "");
-            CreateEmailOptions.CreateEmailOptionsBuilder builder = CreateEmailOptions.builder()
+            var builder = CreateEmailOptions.builder()
                     .from("Travel Easy <" + fromEmail + ">")
                     .to(managerEmail)
                     .subject("Нове замовлення #" + payload.variables().getOrDefault("orderId", "N/A"))
