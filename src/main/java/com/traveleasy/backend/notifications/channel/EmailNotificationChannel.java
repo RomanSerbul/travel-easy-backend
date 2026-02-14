@@ -73,7 +73,12 @@ public class EmailNotificationChannel implements NotificationChannel {
 
     private void sendCustomerEmail(NotificationPayload payload) {
         try {
-            String toEmail = (String) payload.variables().getOrDefault("email", "test@example.com");
+            String toEmail = (String) payload.variables().getOrDefault("email", "");
+            
+            if (toEmail == null || toEmail.isBlank()) {
+                log.info("Skipping customer email — email not provided (phone-only booking)");
+                return;
+            }
             
             log.info("Attempting to send customer email FROM: '{}' TO: '{}'", fromEmail, toEmail);
             
@@ -91,8 +96,9 @@ public class EmailNotificationChannel implements NotificationChannel {
             String htmlContent = templateEngine.process(payload.template(), context);
 
             CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from(fromEmail)
+                    .from("Travel Easy <" + fromEmail + ">")
                     .to(toEmail)
+                    .replyTo(managerEmail != null && !managerEmail.isBlank() ? managerEmail : fromEmail)
                     .subject(subject)
                     .html(htmlContent)
                     .build();
@@ -112,12 +118,15 @@ public class EmailNotificationChannel implements NotificationChannel {
             context.setVariables(payload.variables());
             String htmlContent = templateEngine.process("contact-form", context);
 
-            String subject = "📩 " + payload.variables().getOrDefault("subject", "Повідомлення з сайту")
-                    + " — " + payload.variables().getOrDefault("name", "");
+            String senderName = (String) payload.variables().getOrDefault("name", "");
+            String emailSubject = (String) payload.variables().getOrDefault("subject", "Повідомлення з сайту");
+            String subject = "Повідомлення з сайту: " + emailSubject + " (" + senderName + ")";
+            String replyTo = (String) payload.variables().getOrDefault("email", fromEmail);
 
             CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from(fromEmail)
+                    .from("Travel Easy <" + fromEmail + ">")
                     .to(managerEmail)
+                    .replyTo(replyTo)
                     .subject(subject)
                     .html(htmlContent)
                     .build();
@@ -142,12 +151,16 @@ public class EmailNotificationChannel implements NotificationChannel {
             context.setVariables(vars);
             String htmlContent = templateEngine.process("manager-notification", context);
 
-            CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from(fromEmail)
+            String customerEmail = (String) payload.variables().getOrDefault("email", "");
+            CreateEmailOptions.CreateEmailOptionsBuilder builder = CreateEmailOptions.builder()
+                    .from("Travel Easy <" + fromEmail + ">")
                     .to(managerEmail)
-                    .subject("🔔 Нове замовлення #" + payload.variables().getOrDefault("orderId", "N/A"))
-                    .html(htmlContent)
-                    .build();
+                    .subject("Нове замовлення #" + payload.variables().getOrDefault("orderId", "N/A"))
+                    .html(htmlContent);
+            if (customerEmail != null && !customerEmail.isBlank()) {
+                builder.replyTo(customerEmail);
+            }
+            CreateEmailOptions params = builder.build();
 
             resend.emails().send(params);
             log.info("✅ Manager notification email sent successfully to {} via Resend", managerEmail);
