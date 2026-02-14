@@ -1,5 +1,6 @@
 package com.traveleasy.backend.catalog.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,5 +33,5 @@ public record TourProposalDetail(
         List<String> activities,
         List<String> highlights,
         String departureLocations
-) {
+) implements Serializable {
 }

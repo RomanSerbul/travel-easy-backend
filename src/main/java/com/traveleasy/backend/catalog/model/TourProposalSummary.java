@@ -2,6 +2,7 @@ package com.traveleasy.backend.catalog.model;
 
 import com.traveleasy.backend.catalog.domain.ProposalStatus;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,5 +25,5 @@ public record TourProposalSummary(
         LocalDate returnDate,
         int minGuests,
         int maxGuests
-) {
+) implements Serializable {
 }
