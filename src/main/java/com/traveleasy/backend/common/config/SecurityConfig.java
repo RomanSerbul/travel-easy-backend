@@ -40,8 +40,13 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+                // Створюємо список patterns з налаштованих + Railway
+                java.util.List<String> patterns = new java.util.ArrayList<>(java.util.Arrays.asList(allowedOrigins.split(",")));
+                patterns.add("https://*.up.railway.app");
+                patterns.add("https://*.railway.app");
+                
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(allowedOrigins.split(","))
+                        .allowedOriginPatterns(patterns.toArray(new String[0]))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With")
                         .exposedHeaders("*")
@@ -53,7 +58,13 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource(@Value("${app.cors.allowed-origins:http://localhost:4200}") String allowedOrigins) {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(java.util.Arrays.asList(allowedOrigins.split(",")));
+        
+        // Додаємо налаштовані origins + Railway wildcard
+        java.util.List<String> patterns = new java.util.ArrayList<>(java.util.Arrays.asList(allowedOrigins.split(",")));
+        patterns.add("https://*.up.railway.app");
+        patterns.add("https://*.railway.app");
+        
+        config.setAllowedOriginPatterns(patterns);
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"));
         config.setExposedHeaders(java.util.List.of("*"));
