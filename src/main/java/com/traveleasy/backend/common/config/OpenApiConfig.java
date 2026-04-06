@@ -6,7 +6,6 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,9 +13,6 @@ import java.util.List;
 
 @Configuration
 public class OpenApiConfig {
-
-    @Value("${app.api-url:https://api.easy-travel.com.ua}")
-    private String apiUrl;
 
     @Bean
     public OpenAPI travelEasyOpenApi() {
@@ -26,8 +22,7 @@ public class OpenApiConfig {
                         .description("Backend services for the Travel Easy booking platform")
                         .version("v0.1"))
                 .servers(List.of(
-                        new Server().url(apiUrl).description("Production"),
-                        new Server().url("http://localhost:8081").description("Local Development")
+                        new Server().url("/").description("Current Server")
                 ))
                 .components(new Components().addSecuritySchemes("basicAuth",
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))

@@ -43,7 +43,7 @@ public class SecurityConfig {
                 registry.addMapping("/**")
                         .allowedOriginPatterns(allowedOrigins.split(","))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                        .allowedHeaders("*")
+                        .allowedHeaders("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With")
                         .exposedHeaders("*")
                         .allowCredentials(true);
             }
@@ -55,7 +55,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(java.util.Arrays.asList(allowedOrigins.split(",")));
         config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        config.setAllowedHeaders(java.util.List.of("*"));
+        config.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"));
         config.setExposedHeaders(java.util.List.of("*"));
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
