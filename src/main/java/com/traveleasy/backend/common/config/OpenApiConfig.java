@@ -15,8 +15,8 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
 
-    @Value("${app.url:https://api.easy-travel.com.ua}")
-    private String appUrl;
+    @Value("${app.api-url:https://api.easy-travel.com.ua}")
+    private String apiUrl;
 
     @Bean
     public OpenAPI travelEasyOpenApi() {
@@ -26,7 +26,7 @@ public class OpenApiConfig {
                         .description("Backend services for the Travel Easy booking platform")
                         .version("v0.1"))
                 .servers(List.of(
-                        new Server().url(appUrl).description("Production"),
+                        new Server().url(apiUrl).description("Production"),
                         new Server().url("http://localhost:8081").description("Local Development")
                 ))
                 .components(new Components().addSecuritySchemes("basicAuth",

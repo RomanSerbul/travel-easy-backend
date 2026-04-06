@@ -62,6 +62,7 @@ logging:
 
 app:
   url: ${APP_URL:https://easy-travel.com.ua}
+  api-url: ${APP_API_URL:https://api.easy-travel.com.ua}
   admin:
     username: ${APP_ADMIN_USERNAME:admin}
     password: ${APP_ADMIN_PASSWORD:admin123}
